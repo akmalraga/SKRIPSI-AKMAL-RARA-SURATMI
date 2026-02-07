@@ -1,0 +1,120 @@
+\chapter{MODEL DAN METODE PENELITIAN}
+\RaggedRight\section{Model Fisik Sistem}
+
+\subsection{Tight Binding Model Grafena}
+\justifying
+
+Dalam penelitian ini kami menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \parencite{PhysRevLett.95.226801} dan \parencite{PhysRevB.91.085106}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
+
+Model Tight Binding merepresentasikan atom dalam kisi dengan satu basis orbital $|f_n\rangle = |\phi(x - a)\rangle$ yang terlokalisasi, dengan satu basis orbital setiap atom, orbital ini akan saling tumpang tindih dengan basis atom terdekat. Sehingga Hamiltonian sistem dapat dibangun dengan dua suku; suku lokal ditambah suku tumpang tindih \parencite{GROSSO20141}:
+\[
+  H = \sum_n \epsilon_n |f_n\rangle \langle f_n| + \sum_n b_{n+1} |f_n\rangle \langle f_{n+1}| + \text{H.c.}
+\]
+\par
+Untuk Grafena, yang mana merupakan material dua dimensi dengan sruktur \textit{Honey comb}, orbital terluar atom akan tumpang tidih dengan tiga tetangga terdekat ditambah enam tetangga terdekat kedua.
+\par
+Dalam literatur modern \parencite{CastroNeto2009}, model hamiltonian Tight-Binding  sering dituliskan dalam bentuk kuantisasi kedua. Dimana dalam penggambaran mekanika kuantum, sistem ditentukan oleh fungsi gelombang, sedangkan dalam kuantisasi kedua, elektron dianihilasi dan diciptakan dalam medan fermion oleh operator $c$ dan $c^{\dagger}$. Sehingga secara matematis, Hamiltonian Grafena dapat diaproximasi dengan bentuk;
+\[
+\begin{aligned}
+    H ={} & -t \sum_{\langle i,j \rangle,\sigma} \left( a^{\dagger}_{\sigma,i} b_{\sigma,j} + \text{H.c.} \right) 
+    - t' \sum_{\langle\!\langle i,j \rangle\!\rangle,\sigma} \left( a^{\dagger}_{\sigma,i} a_{\sigma,j} + b^{\dagger}_{\sigma,i} b_{\sigma,j} + \text{H.c.} \right),
+    \end{aligned}
+\]
+
+\subsection{Kane-Mele \textit{Spin Orbit Coupling}}
+\justifying
+Untuk memperoleh fase topologis, Kane-Mele\parencite{PhysRevLett.95.226801} memanfaatkan pengaruh \textit{Spin Orbit Coupling} pada grafena yang selama ini diabaikan sebab memiliki pengaruh yang sangat kecil pada sifat fisis grafena. Kane-Mele menggunakan dua replika model Haldane\parencite{PhysRevLett.61.2015} yang menambahkan fase imajiner pada suku hopping tetangga kedua yang menciptakan medan magnet imajinatif pada ruang momentum, memodulasi gerakan elektron ketepi material. Kane-Mele meningkatkan model ini dengan menambahkan variabel \textit{SOC} dalam suku tersebut, menyebabkan modulasi berbeda setiap spin. secara matematis;
+
+\[
+  \begin{align}
+  \mathcal{H}_{\text{KM},l} = t \sum_{\langle i,j \rangle,\sigma} c_{il\sigma}^\dagger c_{jl\sigma} 
++ i\lambda_{\text{SO}} \sum_{\langle\langle i,j \rangle\rangle,\sigma} \nu_{ij} c_{il\sigma}^\dagger s^z_{\sigma\sigma'} c_{jl\sigma'} \\
+    + i\lambda_R \sum_{\langle i,j \rangle, \sigma \sigma'} c_{i\sigma}^\dagger (\mathbf{s} \times \hat{\mathbf{d}_{ij}})^z_{\sigma \sigma'}c_{j\sigma'}
++ \lambda_v \sum_{i,\sigma} \xi_i c_{il\sigma}^\dagger c_{il\sigma}.
+\end{align}
+\]
+
+\par
+Penambahan variabel spin di suku imajiner pada akhirnya akan mempertahankan simetri pembalikan waktu yang dirusak dalam model Haldane.
+
+\[
+\begin{align}
+\mathcal{T} \, \mathcal{H}_{\mathrm{KM},l} \, \mathcal{T}^{-1}
+&= \mathcal{T} \Bigg[
+t \sum_{\langle i,j \rangle,\sigma} c_{il\sigma}^\dagger c_{jl\sigma}
++ i\lambda_{\mathrm{SO}} \sum_{\langle\langle i,j \rangle\rangle}
+\nu_{ij} c_{il\sigma}^\dagger s^z_{\sigma\sigma'} c_{jl\sigma'} \nonumber \\
+&\quad + i\lambda_R \sum_{\langle i,j \rangle}
+c_{il\sigma}^\dagger (\mathbf{s} \times \hat{\mathbf{d}}_{ij})^z_{\sigma\sigma'} c_{jl\sigma'}
++ \lambda_v \sum_{i,\sigma} \xi_i c_{il\sigma}^\dagger c_{il\sigma}
+\Bigg] \mathcal{T}^{-1} \\
+&= t \sum_{\langle i,j \rangle,\sigma} c_{il\bar{\sigma}}^\dagger c_{jl\bar{\sigma}}
+- i\lambda_{\mathrm{SO}} \sum_{\langle\langle i,j \rangle\rangle}
+\nu_{ij} c_{il\bar{\sigma}}^\dagger s^z_{\bar{\sigma}\bar{\sigma}'} c_{jl\bar{\sigma}'} \nonumber \\
+&\quad - i\lambda_R \sum_{\langle i,j \rangle}
+c_{il\bar{\sigma}}^\dagger (\mathbf{s} \times \hat{\mathbf{d}}_{ij})^z_{\bar{\sigma}\bar{\sigma}'} c_{jl\bar{\sigma}'}
++ \lambda_v \sum_{i,\sigma} \xi_i c_{il\bar{\sigma}}^\dagger c_{il\bar{\sigma}} \\
+&= \mathcal{H}_{\mathrm{KM},l}.
+\end{align}
+\]
+
+
+
+\subsection{\textit{Stacking Layer}}
+
+\begin{figure}[h]
+  \centering 
+  \includegraphics[width=1.0\linewidth]{picture/stacking_layer.png}
+  \caption{Visualisasi skema stacking layer}
+  \label{fig:vis_stack}
+\end{figure}
+
+Kami membangun model tiga dimensi dengan menumpuk lapisan model Kane-Mele \parencite{PhysRevLett.95.226801}, mengikuti pendekatan peneleitian berikut \parencite{PhysRevB.91.085106}. Hamiltonian total terdiri dari suku Kane-Mele intralayer, hopping antarlapisan, dan kopling spin-orbit (SOC) antarlapisan:
+
+\[
+\mathcal{H} = \underbrace{\sum_l \mathcal{H}_{\text{KM},l}}_{\text{Intralayer}} 
++ \underbrace{\tau \sum_{\langle l,l' \rangle} \sum_{i,\sigma} c_{il\sigma}^\dagger c_{il'\sigma}}_{\text{Hopping Antarlapisan}}
++ \underbrace{i\lambda_{SO\perp} \sum_{\langle l,l' \rangle} \sum_{i,\sigma,\sigma'} \mu_{ll'} c_{il\sigma}^\dagger s^z_{\sigma\sigma'} c_{il'\sigma'}}_{\text{Kopling Spin-Orbit Antarlapisan}},
+\]
+
+\par
+Seperti yang ditunjukkan pada gambar \ref{fig:vis_stack}, \textit{stacking} dilakukan dengan munumpuk grafena dua dimensi di sumbu x, dengan perbedaan warna merah dan hijau menunjukkan perbedaan layer. skema ini menciptakan bentuk geometris tiga dimensi kepada grafena.
+
+\section{Formulasi dan Validasi Numerik}
+\subsection{Diskretisasi Ruang}
+Dalam mekanika kuantum partikel diperlakukan sebagai variabel kontinyu, yang diatur oleh fungsi gelombang $\psi(x)$. Namun dalam kasus seperti material grafena, dimana basis orbital setiap atom terlokalisasi, ruang posisi dapat kita diskretisasi. Sehingga hamiltonian dari sistem juga dapat kita modelkan dalam bentuk matrix tridiagonal.
+\[
+H =
+\begin{pmatrix}
+\mathbf{H}_0 & \mathbf{V} & 0 & \cdots & 0 \\
+\mathbf{V}^\dagger & \mathbf{H}_1 & \mathbf{V} & \cdots & 0 \\
+0 & \mathbf{V}^\dagger & \mathbf{H}_2 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \mathbf{V} \\
+0 & 0 & 0 & \mathbf{V}^\dagger & \mathbf{H}_{N}
+\end{pmatrix}.
+\]
+
+\par
+Dengan model hamiltonian ini kita akan dengan mudah memperoleh nilai energi dan fungsi gelombang dari sistem, dengan memasukkan model ini kedalam komputer dan mendiagonalisasi hamiltonian dengan $H_n\psi_n(r)=E_n\psi(r)$.
+
+\subsection{\textit{Slab Geometry}}
+Setelah memperoleh spektrum energi dari diagonalisasi hamiltonian pada ruang diskrit, kita akan memperoleh spektrum energi dari sistem yang periodik, dimana elektron memiliki potensi untuk menjelajah seluruh titik kisi dengan probabilitas universal. Namun dalam kasus konduktansi tepi, elektron tidak menjelajah seluruh titik kisi, melainkan termodulasi ketepian. Maka untuk memvalidasi model dan prosedur numerik, kita perlu menghitung spektrum energi sistem yang terbatas(tidak periodik). Hal ini dilakukan dengan \textit{slab geometry}, dimana ruang tiga dimensi direduksi menjadi dimensi yang lebih rendah.
+\par
+Untuk keperluan validasi, penelitian ini menggunakan arah (100), dimana arah y dan z tetap periodik sedangkan arah x terbatas.
+\subsection{Validasi Efek Tepi}
+
+\section{Metode Analisis Spektrum}
+\subsection{Peta Spektrum Ribbon}
+\subsection{Peta Probabilitas Elektron}
+\subsection{Peta Kerapatan Energi}
+
+\section{Metode Analisis Topologi}
+\subsection{\textit{Hybrid Wannier Function}}
+\subsection{\textit{Axion Angle}}
+
+\section{Parameter dan Implementasi}
+\subsection{Tabel Parameter}
+\subsection{Ekstensi Numerik}
+
+\section{Diagram Alur Penelitian}
+

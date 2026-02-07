@@ -1,0 +1,58 @@
+\chapter{HASIL}
+\RaggedRight\section{Batas kekuatan Disorder}
+\justifying
+Bagian ini bertujuan untuk menentukan nilai ambang disorder $W_c$​ yang memisahkan antara mode bulk dan mode hall dalam model Kane-Mele 3D. Dua pendekatan digunakan untuk mendeteksi perubahan struktur spektrum ini, yaitu validasi mode hall melalui visualisasi pita dan fungsi Wannier hibrid, serta perhitungan numerik DoS pada energi nol terhadap variasi disorder.
+
+\subsection{Validasi Topologis pada Sistem Bersih}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\linewidth]{picture/cleanband.png}
+    \caption{(a) Mode Trivial sistem(SOC=0.06) (b) Mode Non-Trivial sistem(SOC=0.24)}
+    \label{fig:band}
+\end{figure}
+Untuk memastikan sistem berada dalam fase topologis sebelum disorder ditambahkan, dilakukan perhitungan struktur pita pada geometri slab (010) dan visualisasi fungsi Wannier hibrid pada sistem bulk. pada hasil yang kita peroleh pada gambar \ref{fig:band} menunjukkan adanya fase topologis pada sistem yang kita amati, hasil kita sesuai dengan model yang diperoleh pada penelitian \parencite{PhysRevB.91.085106}. pembukaan celah pada sistem ini tidak serta merta menandakan bahwa konduktansi sistem nol. konduktansi pada bulk sistem memanglah nol, karena elektron terlokalisasi akibat dari kopling intrisik, namun dapat kita lihat bahwa terdapat band yang membelok dari area valensi menuju area konduksi dan sebaliknya, band tersebut menunjukkan adanya konduktansi pada tepian pelat. gambar \ref{fig:band} juga menunjukkan dispersi pada nilai kopling intrisik rendah, pada grafik tersebut tidak ditunjukkan adanya konduktansi pada tepian. Hal ini menunjukkan peran dari kopling intrisik yang menciptakan simetri pembalikan waktu yang menjaga sistem.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{picture/hwf.png}
+    \caption{Evolusi \textit{Hybrid Warnier Function}}
+    \label{fig:hwfplot}
+\end{figure}
+Gambar \ref{fig:hwfplot} menunjukkan evolusi pusat fungsi Wannier hibrid sepanjang arah y terhadap momentum kx dalam sistem bersih (tanpa disorder). Pada grafik tersebut, terlihat bahwa pusat-pusat HWF membentuk struktur yang saling berpotongan dan mengalami pergeseran kontinu sepanjang Brillouin zone. Hal ini bersesuaian dengan apa yang di ekpektasikan penelitian\parencite{PhysRevB.83.035108} untuk \textit{warnier centers} pada $Z_2$. 
+\par
+Pola winding atau “perputaran” pusat HWF terhadap kx merupakan indikasi bahwa sistem berada dalam fase topologis non-trivial. Hal ini mencerminkan adanya perubahan muatan topologis secara spasial yang tidak dapat dihapus tanpa menutup celah energi atau memutuskan simetri. Dalam konteks model Kane-Mele, pola ini setara dengan nilai invarian topologi $\mathbb{Z}_2 = 1$.
+
+\subsection{Transisi Topologis: Plot DoS pada Energi Nol}
+Untuk mendeteksi degradasi sifat topologis akibat disorder, dilakukan perhitungan densitas keadaan (DoS) pada energi nol ($E=0$) terhadap variasi kekuatan disorder $W$. Dalam sistem topologis, eksistensi celah energi (bandgap) menyebabkan DoS pada $E=0$ mendekati nol. Sebaliknya, peningkatan DoS(0) yang signifikan mengindikasikan lokalisasi akibat efek disorder, dan menandakan kemungkinan transisi dari mode hall ke mode bulk, klaim ini kita perkuat dengan visualisasi dispersi energi pada bagian selanjutnya.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{picture/datados1.png}
+    \caption{Plot DoS pada $E = 0$ terhadap kekuatan disorder $W/\lambda_{SO}$.}
+    \label{fig:dos_vs_w}
+\end{figure}
+
+\par
+Gambar \ref{fig:dos_vs_w} menunjukkan bahwa DoS pada energi nol tetap kecil untuk nilai disorder rendah ($W < 3.5\lambda_{SO}$), mendukung bahwa sistem masih berada dalam mode hall. Namun, terjadi peningkatan yang tajam pada $W > 3.8\lambda_{SO}$, yang menandakan lokalisasi dan degradasi karakter topologi. Selanjutnya, pada $W > 6.0\lambda_{SO}$, DoS terus meningkat dan mencapai nilai tinggi, mengindikasikan bahwa sistem memasuki mode trivial dengan states lokalisasi pada $E=0$. Dengan demikian, titik transisi disorder diperkirakan berada pada $W_c \approx 6.3\lambda_{SO}$.
+
+\section{Kerusakan Dispersi Energi dan Hilangnya Edge State Helical}
+Untuk memvalidasi transisi yang dideteksi melalui perhitungan DoS pada energi nol, dilakukan inspeksi terhadap struktur pita energi (band structure) pada sistem ribbon yang memiliki geometri terbatas secara transversal. Pada sistem topologis, pita energi menampilkan edge state khas yang melintasi celah (bandgap), dikenal sebagai \textit{Helical Edge States}. Edge state ini merupakan tanda utama dari fasa topologis dan menjadi saluran utama untuk transportasi elektronik yang tidak mengalami hamburan balik \textit{Backscattering-free}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{picture/band_6onsite.png}
+    \caption{Struktur pita energi pada $W=6.0\lambda_{SO}$. Tidak tampak lagi lintasan edge state yang menyambung pita valensi dan pita konduksi.}
+    \label{fig:band_structure_damage}
+\end{figure}
+
+Gambar \ref{fig:band_structure_damage} menunjukkan bahwa pada $W = 6.0\lambda_{SO}$, lintasan edge state yang biasanya melintasi celah energi telah menghilang. Celah energi tetap terlihat secara global, namun tidak lagi terdapat konektivitas antara pita valensi dan pita konduksi di dekat energi nol. Hilangnya lintasan ini merupakan indikasi bahwa sistem tidak lagi berada dalam fase topologis. Meskipun DoS menunjukkan peningkatan (menandakan banyaknya states di energi nol), fakta bahwa edge state menghilang dan celah masih ada mengarahkan interpretasi bahwa sistem telah mengalami lokalisasi akibat disorder yang kuat.
+
+Dengan kata lain, meskipun states eksis di sekitar energi nol, mereka tidak terdelokalisasi secara spasial dan tidak dapat menyumbang pada transportasi. Hal ini selaras dengan perhitungan konduktansi yang menunjukkan penurunan drastis pada titik $W \approx 6.0\lambda_{SO}$, mengonfirmasi degradasi saluran edge state sebagai konduktor dominan.
+
+\section{Peta Spektrum}
+Untuk memvisualisasikan respon spektrum secara lebih luas, dilakukan pemetaan terhadap sistem pada dua parameter disorder: disorder pada energi on-site ($W_x$) dan disorder hopping ($W_y$). Berdasarkan analisis DoS, band structure, dan konduktansi, spektrum Topologis eksis di daerah dengan $W_x < 6.0$ dan $W_y < 5.0$, sedangkan di luar rentang ini sistem didominasi oleh states yang terlokalisasi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{picture/fasa.png}
+    \caption{Peta Spektrum sistem pada bidang parameter disorder. Daerah putih menandakan struktur spektrum topologis, sedangkan daerah gelap merupakan spektrum trivial.}
+    \label{fig:phase_diagram}
+\end{figure}

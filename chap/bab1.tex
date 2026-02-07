@@ -1,0 +1,211 @@
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\chapter{PENDAHULUAN}
+
+\RaggedRight\section{Latar Belakang}
+\justifying
+Material Kuantum datang sebagai pahlawan ketika komponen elektronik tradisional mencapai limit miniaturisasi. Di tengah maraknya riset tentang quantum transistors yang memanfaatkan fenomena superkonduktivitas, entanglement, dan fase topologis\parencite{Chang2015}, grafena mencuat sebagai primus inter pares: material dua dimensi yang tidak hanya menjanjikan transisi dari elektronik ke spintronik, tetapi juga membuka pintu bagi realisasi dissipationless electronics melalui proteksi topologi. Di sinilah fisika material bertemu dengan keanggunan matematika topologi, menciptakan simfoni sains yang berpotensi merevolusi komputasi kuantum hingga teknologi energi bersih\parencite{Nadeem2021}.
+\par
+Grafena menunjukkan reputasi yang cemerlang sebagai laboratorium para peneliti sejak beberapa puluh tahun belakangan, hal ini disebabkan oleh sifat fisis grafena yang memukau. Dari segi ketahanan grafena bahkan mengalahakan berlian yang juga tersusun dari jenis atom yang sama. lebih dari itu, grafena juga menunjukkan konduktifitas yang tinggi yang ditunjukkan pada struktur pita energi grafena yang menunjukkan Dirac cone pada titik simetri BZ \parencite{PhysRev.71.622}\parencite{PhysRevB.1.4747}. Reputasi konduktivitas grafena semakin melejit pada akhir abad ke 20 saat Haldane menunjukkan apa yang dia sebut parity anomaly, model yang dia tunjukkan adalah kisi honeycomb yang ada pada Graphite 2 dimensi(Grafena) dengan dua atom per sub-kisi yang di diatur untuk sedimikian untuk mendukung terealisasinya proteksi topologi, hasilnya menunjukkan bahwa dispersi pita terjadi pada Dirac cone dan menciptakan fenomena konduktansi hall yang terkuantisasi \parencite{PhysRevLett.61.2015}. Fenomena ini menarik kita kembali pada Quantum Hall Conductance yang diteliti sebelum Haldane.
+\par
+    The Beauty of Physics adalah kalimat yang disandingkan dengan fenomena Quantum Hall Conductance oleh banyak ahli, hal ini didasarkan pada kuantisasi yang terjadi pada konduktansi ($\sigma_{xy}=\nu \frac{e^2}{\hbar}$) yang artinya pada regim kuantum detail material tidaklah menjadi penentu sifat elektronik melainkan hanya ditentukan oleh sifat topologis sistemnya\parencite{PhysRevLett.45.494}. Thouless pada penelitiannya kemudian menjelaskan fase Topologis, dimana sistem dibedakan dengan TKKN(Thouless-Kohmoto-Nightingale-den Nijs) sebuah integer yang diperoleh dengan mengintegralkan medan magnetik pada BZ, Hal ini didasarkan pada perhitungan genus yang membedakan sifat topologis sistem, inilah kemudian melahirkan istilah Topological Insulators \parencite{PhysRevLett.49.405}. 
+    \par
+    Topik ini terus berkembang hingga pada tahun 2005 Kane dan Mele membuka pintu baru pada penelitian ini, Kopling Spin-Orbit yang selama ini diabaikan pada grafena sebab kecilnya efeknya tidak memberikan kontribusi yang signifikan pada sifat fisis grafena. Namun, Kane dan Mele menunjukan peningkatan nilai kopling spin-orbit yang terjadi pada energi menuju nol mutlak menciptakan dispersi pita pada sistem persis dengan yang terjadi pada model Haldane. Fase Topologis yang ditunjukkan pada model Kane dan Mele menunjukkan ketahanan yang luar biasa terhadap gangguan fisis, hal ini dikarenakan fenomena spin split yang menjaga Topological invariant dari system \parencite{PhysRevLett.95.226801}\parencite{PhysRevLett.95.146802}\parencite{PhysRevLett.98.106803}.
+    \par
+    Secara eksperimental, Disorder memainkan peran penting pada properti elektronik sistem, hal ini didasarkan oleh kecacatan sampel yang tidak terhindarkan. Berbeda dengan inslator atau konduktor biasa, properti trivial Topological Insulators juga menyebabkan respon sistem terhadap disorder berbeda \parencite{Wu_2016}. Oleh karena itu, studi tentang efek lokalisasi disorder pada Topological Insulators sangatlah penting dalam upaya pengaplikasian material ini menuju industri teknologi kontemporer.
+    \par
+    Realisasi eksperimental hingga industrial dari topik teoritis seperti \textit{Helical edge state material} menjadi tantangan yang dihadapi pada penelitian fisika kondensat kontemporer. Kecacatan pada material nyata pun tak dapat dihindarkan, oleh karena itu penelitian ini bertujuan untuk meninjau dampak dari kecacatan pada grafena yang mengalami gangguan potensial ataupun \textit{defect} pada kisi hingga pengaruh penyusunan lapisan grafena.
+
+\section{Teori}
+\subsection{Efek Topologis}
+\subsubsection{Quantum Hall Conductance}
+\label{subsec:QHE}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{picture/qhall-effect.png}
+    \caption{Skema konduktansi tepi pada pelat metal. Gambar diadaptasi dari \url{ https://universe-review.ca/F13-atom06d.htm#f08w}}
+    \label{fig:enter-label}
+\end{figure}
+Quantum Hall Conductance adalah versi terkuantisasi dari efek Hall klasik, efek ini ditinjau dari pelat semikonduktor 2 Dimensi dengan temperatur rendah dan medan magnetik tegak lurus yang kuat(lihat gambar \ref{fig:enter-label}). Secara klasik resistivitas longitudional diharapkan akan berbanding lienar dengan medan flux magnetik. Namun, eksperimen yang dilakukan menunjukkan bahwa resistansi terkuantisasi dan menunjukkan adanya step-step(lihat gambar \ref{fig:res-hall}). Dimana nilai resistansi longitudionalnya adalah $R_{xy}=\frac{V_{hall}}{I_{chanel}}=\frac{h}{e^2v}$, dimana $v$ adalah nilai integer(1,2,3,4,...). Step-step ini mengindikasikan fenomena Topologis\parencite{PhysRevLett.45.494}. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{picture/qhall-res.png}
+    \caption{Hasil pengukuran resistansi quantum hall effect. Gambar diadaptasi dari D.R. Leadley, Warwick University (1997).}
+    \label{fig:res-hall}
+\end{figure}
+
+\subsubsection{Chern Number}
+Chern number ($C$) merupakan invarian topologis yang mengkuantifikasi sifat geometrik fungsi gelombang elektron dalam ruang momentum. Konsep ini pertama kali dijelaskan dalam konteks \textit{Quantum Hall Effect} (QHE) oleh Thouless, Kohmoto, Nightingale, dan den Nijs (TKKN) \parencite{PhysRevLett.49.405}. Secara matematis, Chern number didefinisikan sebagai integral dari \textit{Berry curvature} ($\Omega(\mathbf{k})$) di seluruh \textit{Brillouin zone} (BZ):
+
+\begin{equation}
+    C = \frac{1}{2\pi} \iint_{\text{BZ}} \Omega(\mathbf{k}) \, dk_x \, dk_y,
+    \label{eq:chern_integral}
+\end{equation}
+
+di mana $\Omega(\mathbf{k})$ merupakan curl dari \textit{Berry connection} $\mathcal{A}(\mathbf{k})$:
+\begin{equation}
+    \Omega(\mathbf{k}) = \nabla_{\mathbf{k}} \times \mathcal{A}(\mathbf{k}),
+\end{equation}
+
+dengan $\mathcal{A}(\mathbf{k})$ diberikan oleh:
+\begin{equation}
+    \mathcal{A}(\mathbf{k}) = -i \langle u_{\mathbf{k}} | \nabla_{\mathbf{k}} | u_{\mathbf{k}} \rangle.
+\end{equation}
+
+Pada persamaan di atas, $|u_{\mathbf{k}}\rangle$ adalah fungsi gelombang Bloch periodik untuk pita energi terisi, dan integral dilakukan pada ruang momentum dua dimensi (BZ).
+
+\subsection*{Peran Chern Number dalam Efek Hall Kuantum}
+\label{subsec:chern_hall}
+
+Dalam konteks QHE, Chern number terkait langsung dengan konduktansi Hall terkuantisasi \parencite{PhysRevLett.61.2015}:
+\begin{equation}
+    \sigma_{xy} = C \cdot \frac{e^2}{h},
+    \label{eq:quantized_conductance}
+\end{equation}
+
+di mana $C$ bernilai bilangan bulat (integer). Kuantisasi ini bersifat \textit{topologis}, artinya tidak bergantung pada gangguan lokal atau detail material selama simetri topologi sistem terjaga.
+
+\subsection*{Aplikasi pada Model Haldane dan Kane-Mele}
+\label{subsec:chern_models}
+
+Pada model Haldane \parencite{PhysRevLett.61.2015}, Chern number muncul akibat patahnya simetri waktu-balik (\textit{time-reversal symmetry}) oleh medan magnet periodik. Untuk grafena dengan modifikasi Haldane, nilai $C = \pm 1$ menandai fase topologi non-trivial yang mendukung keadaan tepi (\textit{edge states}) terkuantisasi.
+
+Sementara itu, model Kane-Mele \parencite{PhysRevLett.95.226801} memperkenalkan generalisasi Chern number ke invarian $\mathbb{Z}_2$ akibat keberadaan spin-orbit coupling. Meskipun demikian, konsep Chern number tetap relevan untuk sistem dengan simetri spin-terpisah (\textit{spin Chern number}).
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.7\textwidth]{picture/haldane_bcurv.pdf}
+    \caption{\textit{Berry curvature} pada BZ (a)chern number=-0,(b)chern number=0 (c)chern number=1. Gambar diadaptasi dari \parencite{Vanderbilt2018}.}
+    \label{fig:berry_curvature}
+\end{figure}
+\subsection{Model Topologis Grafena}
+\subsubsection{Struktur Dasar Grafena}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{picture/graphene_bandgap.pdf}
+    \caption{Struktur pita grafena yang menunjukkan kerucut dirac pada titik K dan K'. Gambar diadaptasi dari \url{https://www.graphenea.com/blogs/graphene-news/6969324-a-bandgap-semiconductor-nanostructure-made-entirely-from-graphene}}
+    \label{fig:enter-label}
+\end{figure}
+Paper seminal \parencite{PhysRev.71.622} merumuskan model \textit{tight-binding} pertama untuk grafena melalui Hamiltonian:
+
+\begin{equation}
+H = -t \sum_{\langle i,j \rangle} \left( a_i^\dagger b_j + \text{h.c.} \right)
+\end{equation}
+
+dengan $t \approx 2.8$ eV merupakan integral \textit{hopping} antar situs karbon terdekat, dan $a_i^\dagger$ ($b_j$) operator kreasi (anihilasi) pada sub-lattice A (B).
+
+\subsection*{Formulasi Hamiltonian Dirac}
+\label{subsec:Struktur_Dasar_Grafena}
+\parencite{Semenoff1984} melakukan ekspansi $\mathbf{k}\cdot\mathbf{p}$ di sekitar titik Dirac ($K$, $K'$), menghasilkan Hamiltonian efektif:
+
+\begin{equation}
+H = \hbar v_F \bm{\sigma} \cdot \mathbf{k}
+\label{eq:dirac}
+\end{equation}
+
+dengan:
+\begin{itemize}
+\item $v_F \approx 10^6$ m/s: kecepatan Fermi
+\item $\bm{\sigma} = (\sigma_x, \sigma_y)$: matriks Pauli merepresentasikan \textit{pseudospin}
+\item $\mathbf{k}$: vektor momentum relatif terhadap titik Dirac
+\end{itemize}
+
+Persamaan (\ref{eq:dirac}) menunjukkan ekivalensi formal dengan Hamiltonian Dirac (2+1)D untuk fermion tanpa massa, di mana $v_F$ menggantikan $c$.
+
+\subsection*{Sifat Topologis}
+\label{subsec:Struktur_Dasar_Grafena}
+\parencite{CastroNeto2009} mengidentifikasi konsekuensi topologis dari Hamiltonian (\ref{eq:dirac}):
+
+\begin{align}
+\text{Indeks Chern} &\quad \mathcal{C} = \pm 1 \quad \text{per kerucut Dirac} \\
+\text{Keadaan Tepi} &\quad \psi_\text{edge} \propto e^{ik_xx}e^{-|y|/\xi} \\
+\text{Anomali Hall} &\quad \sigma_{xy} = \pm 4\frac{e^2}{h} \quad (N=0)
+\end{align}
+
+\subsection*{Transport Elektronik}
+\label{subsec:Struktur_Dasar_Grafena}
+Relasi dispersi linear $E(\mathbf{k}) = \pm \hbar v_F |\mathbf{k}|$ menghasilkan:
+
+\begin{equation}
+\rho(E) = \frac{2|E|}{\pi (\hbar v_F)^2} \quad \text{(kerapatan keadaan)}
+\end{equation}
+
+dengan mobilitas elektron:
+
+\begin{equation}
+\mu = \frac{e v_F^2 \tau}{E_F} \quad (\tau: \text{waktu relaksasi})
+\end{equation}
+
+\subsubsection{Model Haldane}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{picture/haldane_hoppings.pdf}
+    \caption{Skema \textit{Second Neighbour Hoping. Gambar diadaptasi dari \url{https://nbviewer.org/github/topocm/topocm_content/blob/edx_2015/w4_haldane/haldane_model.ipynb}}}
+    \label{fig:enter-label}
+\end{figure}
+Haldane pada papernya \parencite{PhysRevLett.61.2015} membuktikan bahwa fenomena quantum hall effect bisa terjadi tanpa adanya medan magnet eksternal. Haldane memperkenalkan hoping tetangga kedua untuk menciptakan efek psudomagnet yang memecah time reversal symmetry(yang merupakan syarat dari fenomena Quantum Hall Effect) dan modulasi potensial untuk membuka celah energi.
+\par
+Arah panah pada gambar \ref{fig:enter-label} mengindikasikan nilai hoping antara $+it_2$ dan $-it_2$ pada arah yang berlawanan. Perilaku ini menyebabkan perusakan simetri waktu pada sistem dengan bentuk hamiltonian:
+\begin{equation}
+    H(k)=H_0(k)+M\sigma +2t_2\sum_i \sigma_z \sin({\textbf{k}.\textbf{b}_i}).
+\end{equation}
+\subsubsection{Quantum Spin Hall}
+Seperti yang telah kita ketahui pada bagian \ref{subsec:QHE}, terjadi kuantisasi konduktansi yang disebabkan oleh pembentukan \textit{Landau Level} dalam medan magnet eksternal. Namun, \textit{Quantum spin hall effect} menunjukkan bahwa kuantisasi konduktansi bisa diperoleh tanpa medan magnetik eksternal, melalui kopling intrisik spin yang ditunjukan oleh \parencite{PhysRevLett.95.226801}
+\begin{figure}[b]
+    \centering
+    \includegraphics[width=0.5\linewidth]{picture/qsh_hallbar.png}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
+\begin{equation}
+H_{\text{KM}} = H_t + H_{\lambda_{SO}} + H_R
+\end{equation}
+
+dengan:
+\begin{align}
+H_t &= t \sum_{\langle i,j \rangle \sigma} c_{i\sigma}^\dagger c_{j\sigma} \quad \text{(Hopping terdekat)} \label{eq:hopping} \\
+H_{\lambda_{SO}} &= i\lambda_{SO} \sum_{\langle\langle i,j \rangle\rangle \alpha\beta} \nu_{ij} c_{i\alpha}^\dagger s^z_{\alpha\beta} c_{j\beta} \quad \text{(SOC intrinsik)} \label{eq:soc} \\
+H_R &= \lambda_R \sum_{\langle i,j \rangle \alpha\beta} c_{i\alpha}^\dagger (\mathbf{s}_{\alpha\beta} \times \hat{\mathbf{d}}_{ij})_z c_{j\beta} \quad \text{(Rashba SOC)} \label{eq:rashba}
+\end{align}
+
+\noindent di mana:
+\begin{itemize}
+\item $\nu_{ij} = \frac{2}{\sqrt{3}}(\hat{\mathbf{d}}_1 \times \hat{\mathbf{d}}_2)_z = \pm 1$ (fase chiral next-nearest-neighbor)
+\item $\mathbf{s}$ = matriks Pauli untuk spin elektron
+\item $\hat{\mathbf{d}}_{ij}$ = vektor satuan antara situs $i$ dan $j$
+\end{itemize}
+\par
+Berbeda dengan karakterisasi topologis pada QHE yang ditentukan oleh \textit{Chern Number}, QSHE dalam model kane-mele memiliki $Z_2=1$ yang menjamin keberadaan konduktansi tepi yang dilindungi oleh \textit{TRS(Time Reversal Symmetry)}. Invarian $\mathbb{Z}_2$ didefinisikan melalui integral curvature Berry di setengah BZ \parencite{PhysRevLett.95.146802}:
+
+\begin{equation}
+\mathbb{Z}_2 = \frac{1}{2\pi}\left[ \oint_{\mathclap{\text{1/2 BZ}}} \mathcal{F}(\mathbf{k}) \, d^2k - \oint_{\mathclap{\partial(\text{1/2 BZ})}} \mathcal{A}(\mathbf{k}) \cdot d\mathbf{k} \right] \mod 2
+\end{equation}
+
+dengan:
+\begin{align}
+\mathcal{F} &= \nabla_{\mathbf{k}} \times \mathcal{A} \quad \text{(Curvature Berry)} \\
+\mathcal{A} &= -i \sum_{n \in \text{occ}} \bra{u_{n\mathbf{k}}} \nabla_{\mathbf{k}} \ket{u_{n\mathbf{k}}} \quad \text{(Koneksi Berry)}
+\end{align}
+\subsection{Anderson Disorder}
+\parencite{PhysRev.109.1492} menunjukkan adanya fenomena lokalisasi elektron dalam potensial acak yang menyebabkan transisi logam-isolator, di mana fungsi gelombang elektron berubah dari keadaan \textit{extended} menjadi \textit{localized}. Mekanisme ini dapat dimodelkan melalui Hamiltonian:
+
+\begin{equation}
+H = \sum_i \epsilon_i \ket{i}\bra{i} + t \sum_{\langle i,j \rangle} \left( \ket{i}\bra{j} + \text{h.c.} \right)
+\label{eq:anderson_hamiltonian}
+\end{equation}
+
+dengan $\epsilon_i \in [-W/2, W/2]$ adalah potensial on-site acak dan $t$ adalah integral hopping.
+
+\subsubsection{Dampak pada Sistem Topologi}
+Dalam sistem Quantum Spin Hall (QSH), disorder memengaruhi stabilitas fase topologi melalui:
+
+\begin{itemize}
+    \item \textbf{Hybridisasi Edge-Bulk}: Disorder kuat menyebabkan edge states helical berhibridisasi dengan keadaan bulk terlokalisasi.
+
+\end{itemize}
+
+\section{Tujuan Penelitian}
+\begin{enumerate} \item Memperoleh respon spektrum energi \textit{Quantum Spin Hall} (QSH) kane-Mele 3D terhadap variasi disorder.  \item Memperoleh Perubahan struktur pita energi sebagai respons terhadap disorder dalam model Kane-Mele 3D. \item Memperoleh peta spektrum untuk memvisualisasikan stabilitas \textit{Quantum Spin Hall} terhadap disorder. \end{enumerate}
+\section{Manfaat Penelitian}
+\begin{enumerate} \item Memberikan wawasan teoritis terhadap efek \textit{stacking} lapisan dalam memperluas model Kane-Mele ke dimensi tiga. \item Menyediakan Batas gangguan struktural (ketidakteraturan potensial, hopping, dan massa efektif) yang memengaruhi kestabilan fase topologis dalam sistem 3D. \item Memberikan pemahaman lebih dalam mengenai bagaimana disorder memengaruhi keberlangsungan simetri pembalikan waktu (\textit{time-reversal symmetry}) pada sistem topologis. \item Mendukung pengembangan \textit{dissipationless electronics} berbasis \textit{edge states helical} untuk perangkat elektronik modern.\end{enumerate}
