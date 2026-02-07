@@ -1,0 +1,45 @@
+# Core LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# BibTeX / Biber
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# Latexmk
+latexmkrc
+
+# Build directories
+build/
+output/
+
+# Temporary / backup
+*.swp
+*.swo
+*~
+
+# TikZ / PGF
+*.nav
+*.snm
+*.vrb
+
+# Glossaries / index
+*.glo
+*.gls
+*.ist
+*.acn
+*.acr
+*.alg
+*.idx
+*.ilg
+*.ind
+
