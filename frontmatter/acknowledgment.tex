@@ -1,0 +1,247 @@
+\chapter{Derivasi Matematis}
+\section{Tight Binding Model}
+Persamaan Schrodinger untuk potensial \textit{single atom}:$U(r)$
+\begin{align}
+    \left[\frac{p^2}{2m} + U(r) \right]\phi(r)=E_0 \phi(r)
+    \\ \phi^*(r)\left[\frac{p^2}{2m} + U(r) \right]\phi(r)=\phi^*(r)E_0\phi(r)
+\end{align}
+Dengan menambahkan pengaruh dari atom lain:
+\begin{align}
+    \psi_k(r)=\sum_j b_k(r_j) \phi_k(r-r_j) \\
+    \psi(r+R_l)=e^{ik.R_l}\psi(r), && (Teori && Bloch)\\
+    \sum_j b_k(r_j) \phi(r-r_j+R_l)=e^{ik.R_l}\sum_j b_k(r_j) \phi(r-r_j)
+\end{align}
+Dengan mengsubtitusi $R_p=r_j-R_l$
+\begin{align}
+    b_k(R_p+R_l)=e^{ik.R_l}b_k(R_p)
+\\  b_k(R_l)=e^{ik.R_l}b_k(0)\\
+ b_k(r_j)=e^{ik.r_j}b_k(0)
+\end{align}
+Normalisasi Fungsi Gelombang:
+\begin{align}
+    \int{d^3r\psi^*_k(\textbf{r})\psi_k(\textbf{r})}=1\\
+    1=\sum_{r_j}b_k^*(r_j) \sum_{R_l}b_k^*(R_l)\int d^3r\phi^*_k(r-r_j)\phi_k(r-R_l)\\
+    1=b_k^*(0)b_k(0)\sum_{r_j}e^{ik.r_j}\sum_{R_l}e^{ik.R_l}\int d^3r\phi^*_k(r-r_j)\phi_k(r-R_l)\\
+    1=Nb_k^*(0)b_k(0)\sum_{R_p}e^{-ik.R_p}\int d^3r\phi^*_k(r-R_p)\phi_k(r)\\
+    \left[1=Nb_k^*(0)b_k(0)\sum_{R_p}e^{-ik.R_p}\int d^3r\phi^*_k(r-R_p)\phi_k(r)\right]^*\\
+    1=Nb_k^*(0)b_k(0)\sum_{R_p}e^{ik.R_p}\int d^3r\phi^*_k(r)\phi_k(r-R_p)
+    \\
+    b_k^*(0)b_k(0)=\frac{1}{N}.\frac{1}{1+\sum_{R_p}e^{ik.R_p}\alpha_k(R_p)}
+    \\ b_k(0) \approx \frac{1}{\sqrt{N}}
+    \\ \psi_k(r)=\frac{1}{\sqrt{N}}\sum_j e^{ik.r_j} \phi_k(r-r_j)
+\end{align}
+Maka \textit{first order correction} dari energi:
+\begin{align}
+    \psi_k^*(r)H\psi_k=\frac{1}{N}\sum_j \sum_m e^{ik.(r_j-r_m)}\int\phi^*(r-r_m)H\phi(r-r_j)dr
+    \\ \psi_k^*(r)H\psi_k=\frac{1}{N} \sum_n e^{-ik.\rho(n)}\int\phi^*(r-\rho_n)H\phi(r)dr &&(\rho_n=r_m-r_j)
+\end{align}
+
+\chapter{Lampiran Kode Program}
+\label{app:kode-program}
+\section{Kode Utama Simulasi(Model Kane-Mele 3D)}
+Berikut adalah kode utama yang memodelkan sistem yang kita teliti dalam lingkungan PyhTB:
+
+\begin{lstlisting}[language=Python, caption={Model Stacking Graphene}, label={lst:kode-simulasi}]
+import numpy as np
+import matplotlib.pyplot as plt
+from pythtb import tb_model
+
+# Konstanta dan parameter
+delta = 0.7
+t = -1.0
+soc_list = np.array([-0.054, -0.24])
+rashba = 0.05
+width = 10
+nkr = 101
+W = 15*soc_list
+n_avg = 10  # jumlah sample untuk averaging
+
+sigma_z = np.array([0., 0., 0., 1.])
+sigma_x = np.array([0., 1., 0., 0])
+sigma_y = np.array([0., 0., 1., 0])
+r3h = np.sqrt(3.0) / 2.0
+sigma_a = 0.5 * sigma_x - r3h * sigma_y
+sigma_b = 0.5 * sigma_x + r3h * sigma_y
+sigma_c = -1.0 * sigma_x
+
+def set_model(t, soc, rashba, delta, W):
+    lat = [[1, 0, 0], [0.5, np.sqrt(3.0)/2.0, 0.0], [0.0, 0.0, 1.0]]
+    orb = [[1./3., 1./3., 0.0], [2./3., 2./3., 0.0]]
+    model = tb_model(3, 3, lat, orb, nspin=2)
+
+    disorder_values = np.random.uniform(-W/2, W/2, size=len(orb))  
+    onsite_energies = [delta + disorder_values[i] if i % 2 == 0 else -delta + disorder_values[i] for i in range(len(orb))]
+    model.set_onsite(onsite_energies)
+
+    for lvec in ([0, 0, 0], [-1, 0, 0], [0, -1, 0]):
+        model.set_hop(t, 0, 1, lvec)
+    for lvec in ([1, 0, 0], [-1, 1, 0], [0, -1, 0]):
+        model.set_hop(soc * 1.j * sigma_z, 0, 0, lvec)
+    for lvec in ([-1, 0, 0], [1, -1, 0], [0, 1, 0]):
+        model.set_hop(soc * 1.j * sigma_z, 1, 1, lvec)
+    model.set_hop(0.3 * soc * 1j * sigma_z, 1, 1, [0, 0, 1])
+    model.set_hop(-0.3 * soc * 1j * sigma_z, 0, 0, [0, 0, 1])
+    model.set_hop(1.j * rashba * sigma_a, 0, 1, [0, 0, 0], mode="add")
+    model.set_hop(1.j * rashba * sigma_b, 0, 1, [-1, 0, 0], mode="add")
+    model.set_hop(1.j * rashba * sigma_c, 0, 1, [0, -1, 0], mode="add")
+
+    return model
+\end{lstlisting}
+
+\section{Kode Tambahan: Analisis Data}
+\textit{Syntax} tambahan untuk menganalisis hasil simulasi:
+
+\begin{lstlisting}[language=Python, caption={Kode Analisis DOS}, label={lst:kode-analisis DOS}]
+
+dos_at_zero = []
+
+for W in W_values:
+    all_eigenvalues = []
+    for _ in range(n_samples):
+        # Bangun model dengan disorder W
+        my_model = set_model(t, soc, rashba, delta, W)
+        
+        # Potong model menjadi ribbon
+        ribbon_model = my_model.cut_piece(width, fin_dir=1, glue_edgs=False)
+        
+        # Hitung eigenenergi
+        (k_vec, k_dist, k_node) = ribbon_model.k_path(
+            [[0.,0.], [2./3.,1./3.], [.5,.5], [1./3.,2./3.], [0.,0.]],
+            nkr, report=False
+        )
+        rib_eval = ribbon_model.solve_all(k_vec)
+        all_eigenvalues.append(rib_eval.flatten())
+    
+    # Gabungkan semua eigenenergi
+    combined_eval = np.concatenate(all_eigenvalues)
+    
+    # Hitung histogram dan ekstrak DOS pada E=0
+    hist, bin_edges = np.histogram(combined_eval, bins=50, range=(-4., 4.), density=True)
+    bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
+    idx_zero = np.argmin(np.abs(bin_centers))  # Indeks bin terdekat E=0
+    dos_at_zero.append(hist[idx_zero])
+
+# Menyimpan data ke dalam file CSV
+with open('dos_at_zero.csv', mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["W/soc", "DOS at E=0"])  # Menulis header
+    for W, dos in zip(W_values / soc, dos_at_zero):
+        writer.writerow([W, dos])  # Menulis setiap baris data
+
+
+# Plot hasil
+#z2 =ribbon_model.z2_invariant()
+#print(f"Z2 invariant: {z2}")
+plt.plot(W_values/soc, dos_at_zero, 'o-', label='Simulasi')
+plt.axvline(x=2.5, c='r', ls='--', label='Prediksi $W_c=2.5\lambda_{SO}$')
+plt.xlabel("$W/\lambda_{SO}$")
+plt.ylabel("DOS pada $E=0$")
+plt.legend()
+plt.show()
+
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Kode Analisis Pita Energi}, label={lst:kode-analisis Pita Energi}]
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+for je, soc_val in enumerate(soc_list):
+    eval_total = None
+    for _ in range(n_avg):
+        my_model = set_model(t, soc_val, rashba, delta, W)
+        ribbon_model = my_model.cut_piece(width, fin_dir=1, glue_edgs=False)
+        path = [[0.,0.],[2./3.,1./3.],[.5,.5],[1./3.,2./3.],[0.,0.]]
+        (k_vec, k_dist, k_node) = ribbon_model.k_path(path, nkr, report=False)
+        rib_eval = ribbon_model.solve_all(k_vec, eig_vectors=False)
+
+        if eval_total is None:
+            eval_total = np.array(rib_eval)
+        else:
+            eval_total += np.array(rib_eval)
+
+    rib_eval_avg = eval_total / n_avg
+    nbands = rib_eval_avg.shape[0]
+    ax1 = ax[je]
+    ax1.set_xlim([0, k_node[-1]])
+    ax1.set_xticks(k_node)
+    ax1.set_xticklabels([r'$\Gamma$', r'$K$', r'$M$', r"$K'$", r'$\Gamma$'])
+    ax1.set_ylim(-5, 5)
+    ax1.set_ylabel("Averaged Band Structure (010)")
+    ax1.set_title(f"SOC = {soc_val:.3f}")
+    
+    for i in range(len(k_vec)):
+        ax1.scatter([k_dist[i]] * nbands, rib_eval_avg[:, i], s=2, c='black', alpha=0.5)
+
+plt.tight_layout()
+plt.savefig("averaged_band_structure.pdf")
+plt.show()
+
+
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Python, caption={Kode Diagram Fasa}, label={lst:Kode Diagram Fasa}]
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Define phase boundary values
+Wc_onsite = 6.0  # threshold for onsite disorder
+Wc_hopping = 5.0  # threshold for hopping disorder
+
+# Create grid
+x = np.linspace(1, 10, 100)  # Onsite disorder
+y = np.linspace(1, 10, 100)  # Hopping disorder
+X, Y = np.meshgrid(x, y)
+
+# Define trivial phase condition: either x > Wc_onsite or y > Wc_hopping
+Z = np.zeros_like(X)
+Z[(X > Wc_onsite) | (Y > Wc_hopping)] = 1  # Anderson Insulators
+Z[(X <= Wc_onsite) & (Y <= Wc_hopping)] = 0  # Topological phase
+
+# Plot the phase diagram
+fig, ax = plt.subplots(figsize=(6, 5))
+c = ax.contourf(X, Y, Z, levels=[-0.1, 0.5, 1.1], colors=['red', 'black'], alpha=0.8)
+ax.contour(X, Y, Z, levels=[0.5], colors='k', linewidths=1)
+
+# Annotations and labels
+ax.set_xlabel("Onsite Disorder W (x)")
+ax.set_ylabel("Hopping Disorder W (y)")
+ax.set_title("Phase Diagram: Topological vs Anderson Insulators")
+
+# Color legend
+from matplotlib.patches import Patch
+legend_elements = [Patch(facecolor='red', label='Topological Phase'),
+                   Patch(facecolor='black', label='Anderson Insulator Phase')]
+ax.legend(handles=legend_elements, loc='upper left')
+
+plt.tight_layout()
+plt.show()
+
+
+\end{lstlisting}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  caption={Data DOS at E=0 terhadap kekuatan disorder (W/soc)},
+  label={lst:data-dos},
+}
+
+\begin{lstlisting}
+W/soc,DOS at E=0
+0.0,0.0
+1.1111111111111112,0.0
+2.2222222222222223,0.0
+3.3333333333333335,0.0005538366336633659
+4.444444444444445,0.0019863861386138597
+5.555555555555555,0.00779702970297029
+6.666666666666667,0.017558787128712856
+7.777777777777779,0.023363242574257405
+8.88888888888889,0.03208796943121178
+10.0,0.03748905795087555
+\end{lstlisting}
+
+
