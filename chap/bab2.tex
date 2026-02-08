@@ -4,7 +4,7 @@
 \subsection{Tight Binding Model Grafena}
 \justifying
 
-Dalam penelitian ini kami menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \parencite{PhysRevLett.95.226801} dan \parencite{PhysRevB.91.085106}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
+Penelitian ini menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \parencite{PhysRevLett.95.226801} dan \parencite{PhysRevB.91.085106}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
 
 Model Tight Binding merepresentasikan atom dalam kisi dengan satu basis orbital $|f_n\rangle = |\phi(x - a)\rangle$ yang terlokalisasi, dengan satu basis orbital setiap atom, orbital ini akan saling tumpang tindih dengan basis atom terdekat. Sehingga Hamiltonian sistem dapat dibangun dengan dua suku; suku lokal ditambah suku tumpang tindih \parencite{GROSSO20141}:
 \[
@@ -97,17 +97,44 @@ H =
 \par
 Dengan model hamiltonian ini kita akan dengan mudah memperoleh nilai energi dan fungsi gelombang dari sistem, dengan memasukkan model ini kedalam komputer dan mendiagonalisasi hamiltonian dengan $H_n\psi_n(r)=E_n\psi(r)$.
 
-\subsection{\textit{Slab Geometry}}
-Setelah memperoleh spektrum energi dari diagonalisasi hamiltonian pada ruang diskrit, kita akan memperoleh spektrum energi dari sistem yang periodik, dimana elektron memiliki potensi untuk menjelajah seluruh titik kisi dengan probabilitas universal. Namun dalam kasus konduktansi tepi, elektron tidak menjelajah seluruh titik kisi, melainkan termodulasi ketepian. Maka untuk memvalidasi model dan prosedur numerik, kita perlu menghitung spektrum energi sistem yang terbatas(tidak periodik). Hal ini dilakukan dengan \textit{slab geometry}, dimana ruang tiga dimensi direduksi menjadi dimensi yang lebih rendah.
-\par
-Untuk keperluan validasi, penelitian ini menggunakan arah (100), dimana arah y dan z tetap periodik sedangkan arah x terbatas.
 \subsection{Validasi Efek Tepi}
 
-\section{Metode Analisis Spektrum}
-\subsection{Peta Spektrum Ribbon}
-\subsection{Peta Probabilitas Elektron}
-\subsection{Peta Kerapatan Energi}
+Setelah memperoleh spektrum energi dari diagonalisasi hamiltonian pada ruang diskrit, kita akan memperoleh spektrum energi dari sistem yang periodik, dimana elektron memiliki potensi untuk menjelajah seluruh titik kisi dengan probabilitas universal. Namun dalam kasus konduktansi tepi, elektron tidak menjelajah seluruh titik kisi, melainkan termodulasi ketepian. Maka untuk memvalidasi model dan prosedur numerik, kita perlu menghitung spektrum energi sistem yang terbatas(tidak periodik). Hal ini dilakukan dengan \textit{slab geometry}, dimana ruang tiga dimensi direduksi menjadi dimensi yang lebih rendah.
+\par
+Untuk keperluan validasi, penelitian ini menggunakan arah (100), dimana arah y dan z tetap periodik sedangkan arah x terbatas. Secara konsep, seharusnya struktur pita akan menunjukkan terciptanya celah pita pada energi fermi akibat terlokalisasinya elektron di \textit{bulk}, namun akan ada dua pita yang berbelok dari valensi ke pita konduktif, \textit{vice verca}.
 
+\par
+Pada penelitian ini, efek dari \textit{Periodic Boundary Condition} dan \textit{Open Boundary Condition} juga diuji, untuk melihat bagaimana distribusi energi yang diperbolehkan pada sistem ketika diterapkan batas pada material dan bagaimana respon sistem ketika diberi kondisi periodik.
+
+
+\section{Metode Analisis Spektrum}
+Untuk melihat bagaimana respon sistem terhadap perubahan parameter, kita akan membangun peta respon energi. Hal ini dilakukan dengan membandingkan hasil plot fungsi energi terhadap variasi parameter. Pada penelitian ini, parameter yang akan divariasikan adalah stragged potential pada atom lokal dan kopling rashba, yang mana dijelaskan pada \parencite{PhysRevLett.95.226801}, melawan efek \textit{Spin Orbit Coupling}. Plot-plot energi akan disusun dalam sumbu stragged potential vs kopling rashba, untuk melihat di titik mana \textit{Spin Orbit Coupling} kalah.
+\[
+  \lambda_R < \lambda_{SOC}
+\]
+\subsection{Peta Spektrum Ribbon}
+Peta pertama yang akan dibangun adalah spektrum ribbon. Seperti yang disinggung sebelumnya; \textit{edge state} hanya akan tervisualisasi pada spektrum pita energi apabila diterapkan \textit{slab geometry}. Untuk satu nilai parameter, plot akan dibangun dengan mendiagonalisasikan energi pada dua sumbu periodik dan satu sumbu terbatas di titik-titik simetri tinggi; ($\bar{\Gamma}$, $\bar{X}$, $\bar{M}$, $\bar{\Gamma}$,$\bar{Y}$)
+
+
+\par 
+Untuk menentukan kriteria dari \textit{edge state}, kita hanya perlu memperhatikan transisi pita konduksi menuju pita valensi, dan sebaliknya. di titik stragged potential dan rashba besar seharusnya sturktur pita akan menuju ke bentuk insulator trivial.
+\subsection{Peta Probabilitas Elektron}
+Hasil dari diagonalisasi matrix hamiltonian tidak hanya memberikan kita informasi eigen energi, tapi memberikan kita informasi dari eigen vektor(eigen state) $\psi_n(k)$. Eigen state($\psi_n(k)$) ini dapat ditulis sebagai superposisi orbital-orbital basis;
+\[
+|\psi_n\rangle = \sum_{\alpha}c_{n\alpha}|\phi_\alpha\rangle\]
+\par
+Nilai kuadrat dari $\sum_{\alpha}c_{n\alpha}$ secara fisis menunjukkan probabilitas keberadaan elektron, nilainya akan berkisar dari 0-1. Penelitian ini memanfaatkan nilai probabilitas ini untuk mendeteksi distribusi probabilitas pada sistem. Pita energi akan kembali diekstraksi dalam prosedur ini, namun dengan mode periodik dan penambahan pengukur probabilitas untuk melihat aktivitas elektron pada sistem.
+\par
+Untuk menentukan kriteria dari \textit{edge state} kita hanya perlu melihat pencampuran probabilitas pada struktur pita. Pada insulator trivial, probabilitas elektron akan kontras antara valensi dan konduksi, berbeda dengan mode tepi yang akan mencampur probabilitas.
+\subsection{Peta Kerapatan Energi}
+Pita energi hanya memberikan kita gambaran visual dari perilaku sistem, maka untuk memvalidasi keberadaan keadaan tepi(\textit{edge state}) kita perlu memperoleh nilai kuantitatif dari energi pada celah pita. Penelitian ini memanfaatkan ekstraksi kerapatan keadaan untuk mendeteksi keberadaan \textit{edge state} pada energi fermi. Lebih dari itu, tidak seperti pita energi yang memaksa kita mereduksi dimensi untuk keperluan visualisasi, kerapatan keadaan mengizinkan kita untuk memotong seluruh sumbu(111).
+\par
+Rapat keadaan dalam mekanika kuantum dimodelkan sebagai;
+\[
+  D(E) = \sum_n \delta (E - E_n)
+\]
+\par
+Karena komputer tidak bisa membaca fungsi delta, maka penilitian ini menggunakan metode histogram untuk mendekati nilai analitik. Rentang energi akan dibagi menjadi bin dengan lebar $\Delta E$, hasil diagonalisasi hamiltonian kemudian akan menentukan berapa banyak level energi $E_n$ yang masuk kedalam setiap bin, yang kemudian akan dibagi dengan $\Delta E$ untuk memperoleh kerapatan energi.
 \section{Metode Analisis Topologi}
 \subsection{\textit{Hybrid Wannier Function}}
 \subsection{\textit{Axion Angle}}
