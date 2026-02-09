@@ -28,7 +28,16 @@
 \usepackage[utf8]{inputenc}
 \usepackage{titlesec}
 \titlespacing{\chapter}{5pt}{2pt}{2pt}
-\usepackage[indonesia]{babel} 
+\usepackage[indonesia]{babel}
+
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt,
+  language=auto,
+  autolang=other
+]{biblatex}
+\addbibresource{ref.bib}
 
 \renewcommand{\contentsname}{DAFTAR ISI}
 \renewcommand{\listfigurename}{DAFTAR GAMBAR}
@@ -46,6 +55,13 @@
   [hang] % atau display, block, runin sesuai kebutuhan
   {\normalfont\bfseries\normalsize} % format font section (bold, normal size)
   {\thesection} % nomor section
+  {1em} % jarak antara nomor dan judul
+  {}
+
+\titleformat{\subsection}
+  [hang] % atau display, block, runin sesuai kebutuhan
+  {\normalfont\bfseries\normalsize} % format font section (bold, normal size)
+  {\thesubsection} % nomor section
   {1em} % jarak antara nomor dan judul
   {}
 
@@ -69,9 +85,7 @@
 \usepackage{booktabs}
 \usepackage{lipsum} % for dummy text
 \usepackage{ragged2e}
-\usepackage[backend=biber,style=authoryear]{biblatex}
-\addbibresource{ref(1).bib}
-\usepackage[english, indonesia]{babel}
+%\usepackage[english, indonesia]{babel}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
 
