@@ -4,16 +4,16 @@
 \subsection{Tight Binding Model Grafena}
 \justifying
 
-Penelitian ini menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \parencite{PhysRevLett.95.226801} dan \parencite{PhysRevB.91.085106}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
+Penelitian ini menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \Textcite{PhysRevLett.95.226801} dan \Textcite{PhysRevB.91.085106}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
 
-Model Tight Binding merepresentasikan atom dalam kisi dengan satu basis orbital $|f_n\rangle = |\phi(x - a)\rangle$ yang terlokalisasi, dengan satu basis orbital setiap atom, orbital ini akan saling tumpang tindih dengan basis atom terdekat. Sehingga Hamiltonian sistem dapat dibangun dengan dua suku; suku lokal ditambah suku tumpang tindih \parencite{GROSSO20141}:
+Model Tight Binding merepresentasikan atom dalam kisi dengan satu basis orbital $|f_n\rangle = |\phi(x - a)\rangle$ yang terlokalisasi, dengan satu basis orbital setiap atom, orbital ini akan saling tumpang tindih dengan basis atom terdekat. Sehingga Hamiltonian sistem dapat dibangun dengan dua suku; suku lokal ditambah suku tumpang tindih \Textcite{GROSSO20141}:
 \[
   H = \sum_n \epsilon_n |f_n\rangle \langle f_n| + \sum_n b_{n+1} |f_n\rangle \langle f_{n+1}| + \text{H.c.}
 \]
 \par
 Untuk Grafena, yang mana merupakan material dua dimensi dengan sruktur \textit{Honey comb}, orbital terluar atom akan tumpang tidih dengan tiga tetangga terdekat ditambah enam tetangga terdekat kedua.
 \par
-Dalam literatur modern \parencite{CastroNeto2009}, model hamiltonian Tight-Binding  sering dituliskan dalam bentuk kuantisasi kedua. Dimana dalam penggambaran mekanika kuantum, sistem ditentukan oleh fungsi gelombang, sedangkan dalam kuantisasi kedua, elektron dianihilasi dan diciptakan dalam medan fermion oleh operator $c$ dan $c^{\dagger}$. Sehingga secara matematis, Hamiltonian Grafena dapat diaproximasi dengan bentuk;
+Dalam literatur modern \Textcite{CastroNeto2009}, model hamiltonian Tight-Binding  sering dituliskan dalam bentuk kuantisasi kedua. Dimana dalam penggambaran mekanika kuantum, sistem ditentukan oleh fungsi gelombang, sedangkan dalam kuantisasi kedua, elektron dianihilasi dan diciptakan dalam medan fermion oleh operator $c$ dan $c^{\dagger}$. Sehingga secara matematis, Hamiltonian Grafena dapat diaproximasi dengan bentuk;
 \[
 \begin{aligned}
     H ={} & -t \sum_{\langle i,j \rangle,\sigma} \left( a^{\dagger}_{\sigma,i} b_{\sigma,j} + \text{H.c.} \right) 
@@ -23,7 +23,7 @@ Dalam literatur modern \parencite{CastroNeto2009}, model hamiltonian Tight-Bindi
 
 \subsection{Kane-Mele \textit{Spin Orbit Coupling}}
 \justifying
-Untuk memperoleh fase topologis, Kane-Mele\parencite{PhysRevLett.95.226801} memanfaatkan pengaruh \textit{Spin Orbit Coupling} pada grafena yang selama ini diabaikan sebab memiliki pengaruh yang sangat kecil pada sifat fisis grafena. Kane-Mele menggunakan dua replika model Haldane\parencite{PhysRevLett.61.2015} yang menambahkan fase imajiner pada suku hopping tetangga kedua yang menciptakan medan magnet imajinatif pada ruang momentum, memodulasi gerakan elektron ketepi material. Kane-Mele meningkatkan model ini dengan menambahkan variabel \textit{SOC} dalam suku tersebut, menyebabkan modulasi berbeda setiap spin. secara matematis;
+Untuk memperoleh fase topologis, Kane-Mele\Textcite{PhysRevLett.95.226801} memanfaatkan pengaruh \textit{Spin Orbit Coupling} pada grafena yang selama ini diabaikan sebab memiliki pengaruh yang sangat kecil pada sifat fisis grafena. Kane-Mele menggunakan dua replika model Haldane\Textcite{PhysRevLett.61.2015} yang menambahkan fase imajiner pada suku hopping tetangga kedua yang menciptakan medan magnet imajinatif pada ruang momentum, memodulasi gerakan elektron ketepi material. Kane-Mele meningkatkan model ini dengan menambahkan variabel \textit{SOC} dalam suku tersebut, menyebabkan modulasi berbeda setiap spin. secara matematis;
 
 \[
   \begin{align}
@@ -69,7 +69,7 @@ c_{il\bar{\sigma}}^\dagger (\mathbf{s} \times \hat{\mathbf{d}}_{ij})^z_{\bar{\si
   \label{fig:vis_stack}
 \end{figure}
 
-Kami membangun model tiga dimensi dengan menumpuk lapisan model Kane-Mele \parencite{PhysRevLett.95.226801}, mengikuti pendekatan peneleitian berikut \parencite{PhysRevB.91.085106}. Hamiltonian total terdiri dari suku Kane-Mele intralayer, hopping antarlapisan, dan kopling spin-orbit (SOC) antarlapisan:
+Kami membangun model tiga dimensi dengan menumpuk lapisan model Kane-Mele \Textcite{PhysRevLett.95.226801}, mengikuti pendekatan peneleitian berikut \Textcite{PhysRevB.91.085106}. Hamiltonian total terdiri dari suku Kane-Mele intralayer, hopping antarlapisan, dan kopling spin-orbit (SOC) antarlapisan:
 
 \[
 \mathcal{H} = \underbrace{\sum_l \mathcal{H}_{\text{KM},l}}_{\text{Intralayer}} 
@@ -108,7 +108,7 @@ Pada penelitian ini, efek dari \textit{Periodic Boundary Condition} dan \textit{
 
 
 \section{Metode Analisis Spektrum}
-Untuk melihat bagaimana respon sistem terhadap perubahan parameter, kita akan membangun peta respon energi. Hal ini dilakukan dengan membandingkan hasil plot fungsi energi terhadap variasi parameter. Pada penelitian ini, parameter yang akan divariasikan adalah stragged potential pada atom lokal dan kopling rashba, yang mana dijelaskan pada \parencite{PhysRevLett.95.226801}, melawan efek \textit{Spin Orbit Coupling}. Plot-plot energi akan disusun dalam sumbu stragged potential vs kopling rashba, untuk melihat di titik mana \textit{Spin Orbit Coupling} kalah.
+Untuk melihat bagaimana respon sistem terhadap perubahan parameter, kita akan membangun peta respon energi. Hal ini dilakukan dengan membandingkan hasil plot fungsi energi terhadap variasi parameter. Pada penelitian ini, parameter yang akan divariasikan adalah stragged potential pada atom lokal dan kopling rashba, yang mana dijelaskan pada \Textcite{PhysRevLett.95.226801}, melawan efek \textit{Spin Orbit Coupling}. Plot-plot energi akan disusun dalam sumbu stragged potential vs kopling rashba, untuk melihat di titik mana \textit{Spin Orbit Coupling} kalah.
 \[
   \lambda_R < \lambda_{SOC}
 \]
