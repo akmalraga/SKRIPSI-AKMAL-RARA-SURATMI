@@ -1,0 +1,56 @@
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\chapter{PENDAHULUAN}
+
+\RaggedRight\section{Latar Belakang}
+\justifying
+\lipsum
+
+\section{Landasan Teori}
+\subsection{Sifat Elektronik Material}
+\justifying 
+
+Sifat elektronik material masih terhalang kabut yang tebal sebelum mekanika kuantum datang. Sebelumnya, sifat elektronik dari suatu material masih ditentukan oleh atom penyusun material tersebut. Paul Drude(1900) menjelaskan fenomena kelistrikan material dengan menganggap elektron sebagai gas gas ideal klasik, teori ini sayangnya gagal menjelaskan kapasitas panas elektronik \parencite{kittel1955solid}.
+
+\par
+
+Setelah datangnya mekanika kuantum kita tahu bahwa energi terkuantisasi pada level-level tertentu. Lebih dari itu, lewat representasi Bloch kita mampu membangun struktur pita energi dalam sistem material, hal ini akhirnya memberikan kita informasi terbaru perihal sifat elektronik material.
+
+\par
+
+Dalam menyelesaikan persamaan schrodinger, Bloch menggunakan fungsi gelombang periodik, dengan berlandaskan potensial periodik pada kristal.
+\[
+  \psi(r) = u_k(r) e^{ik.r}
+\]
+Interaksi antara gelombang elektron inilah yang akhirnya melahirkan celah pita energi. Klasifikasi material lahir dari informasi ini; isolator adalah material celah pita cukup besar antara pita valensi dan pita konduksi sehingga elektron tidak mampu berpindah bebas antara kisi, sedangkan konduktor adalah material dengan pita yang terisi setengah, sehingga elektron bebas bergerak di dalam material bahkan dengan energi tambahan yang kecil. Dari teori celah pita ini juga lahir semikonduktor, sebuah material dengan celah pita kecil sehingga elektron masih mampu melompat ke kisi tetangga.
+
+\subsection{Efek Tepi dan Kuantisasi Konduktansi Tepi}
+Ide dari konduktansi tepi telah lahir jauh sebelum material topologis datang. Pada fisika klasik, ketika sebuah medan listrik $E$ mengalir lurus kedalam sebuah pelat metal tipis sedemikan hingga elektron hanya mampu bergerak bebas dalam bidang dua dimensi. Kemudian sebuah medan magnet diaplikasikan tegak lurus terhadap pelat metal, gaya Lorentz akan memodulasi elektron menuju ketepian pelat\parencite{kittel1955solid}.
+\[
+  \begin{align}
+    E_y = -\frac{eB\tau}{m}E_x \\ 
+    R_H = \frac{E_y}{j_x B} \\ 
+    R_H = - \frac{1}{ne}
+    \rho_{xy} = R_H B_z
+  \end{align}
+\]
+Deskripsi matematis ini memberi kita informasi dari resisvitas yang ditentukan secara linear oleh penambahan kekuatan medan magnet $B_z$.
+\par 
+\parencite{PhysRevLett.45.494} Kemudian mencoba membawa fenomena ini kedalam rezim kuantum. dan menunjukkan bahwa pada medan magnet kuat dan suhu rendah, koefisien Hall menjadi terkuantisasi. Kuantisasi dari gerakan orbital elektron dengan frekuensi siklotron $\omega_c$ mengarah ke kuantisasi level Landau dengan energi $\epsilon_m = \hbar \omega_c(m + 1/2)$. Fenomena ini melahirkan kuantisasi konduktansi tepi;
+\[
+  \sigma_{xy} = N e^2 / h
+\]
+\subsection{TKKN Invariant}
+Ketika visualisasi dilakukan terhadap pita energi pada sistem yang dikerjakan oleh \parencite{PhysRevLett.45.494}, akan diperoleh celah pita yang memperantarai pita energi. Pertanyaan yang muncul setelah penelitian penting ini adalah; apa yang membedakan sistem ini dengan insulator biasa dan darimana nilai kuantisasi ini diperoleh.
+\par 
+
+Jawaban dari teka-teki ini muncul lewat diksi matematis yang menyelinap masuk ke skena fisika. Topologi, sebagaimana dijelaskan oleh \parencite{PhysRevLett.49.405}, adalah diksi yang menjelaskan klasifikasi geometri yang tahan terhadap deformasi ringan, seperti benda dengan satu lubang akan tetap diklasifikasikan dengan "genus" satu, selama lubang tersebut tetap satu tidak peduli dengan bentuk kulitnya. Hal ini membantu kita menjelaskan bahwa selama dua pita memiliki properti topologi yang sama, keduanya mampu terkoneksi secara adiabatik tanpa penutupan celah.
+\par 
+
+Bilangan kuantum topologi yang mengikat pita-pita ini dapat dimengerti lewat formulasi Berry Phase\parencite{10.1098/rspa.1984.0023}. Berry menunjukkan pada penelitiannya bahwa sebuah hamiltonian kuantum akan menghasilkan fase geometris kompleks ketika diberi variasi eksternal. Fase ini memiliki garis integral $\mathcal{A}_m = i \langle u_m | \nabla_k | u_m \rangle$, dan integral bidang $\mathcal{F}_m = \nabla \times \mathcal{A}_m$. Invariant atau bilangan kuantum dari sistem dapat dihitung dengan;
+\[
+  n_m = \frac{1}{2\pi} \int d^2 \mathbf{k} \mathcal{F}
+_m\]
+\subsection{Model Haldane}
+
+\subsection{Model Kane dan Mele}
