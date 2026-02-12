@@ -137,6 +137,37 @@ Rapat keadaan dalam mekanika kuantum dimodelkan sebagai;
 Karena komputer tidak bisa membaca fungsi delta, maka penilitian ini menggunakan metode histogram untuk mendekati nilai analitik. Rentang energi akan dibagi menjadi bin dengan lebar $\Delta E$, hasil diagonalisasi hamiltonian kemudian akan menentukan berapa banyak level energi $E_n$ yang masuk kedalam setiap bin, yang kemudian akan dibagi dengan $\Delta E$ untuk memperoleh kerapatan energi.
 \section{Metode Analisis Topologi}
 \subsection{\textit{Hybrid Wannier Function}}
+Fase Berry memperoleh hasil dengan mengintegralkan koneksi Berry sepanjang jalur($\bar{R}(0)$ hingga $\bar{R}(t)$). Dimana koneksi Berry dituliskan sebagai; \[ \bar{A}_n (\bar{k}) = i \langle n_k | \nabla_{\bar{R}} | n_k \rangle \]
+\par
+Untuk membawa persamaan ini ke dalam perhitungan numerik, 
+kita tidak dapat langsung mengevaluasi turunan 
+$\nabla_{\bar{R}}$, sehingga koneksi Berry 
+didefinisikan melalui transport paralel diskret antar titik 
+$\mathbf{k}$ pada kisi Brillouin \parencite{doi:10.1143/JPSJ.74.1674}. 
+Didefinisikan \textit{link variable}
+
+\[
+U_n(k_l) 
+= \frac{\langle n(k_l) | n(k_l+\hat{\mu}) \rangle}
+{|\langle n(k_l) | n(k_l+\hat{\mu}) \rangle|}
+\]
+
+yang merepresentasikan holonomi fase Berry sepanjang satu 
+langkah mesh. Hubungan antara $U_n$ dan koneksi Berry kontinu 
+diberikan oleh
+
+\[
+\langle n(k) | n(k+\delta k_\mu) \rangle 
+\simeq \exp\!\left[-i A_\mu(k)\,\delta k_\mu \right],
+\]
+
+sehingga dengan mengikuti prosedur \parencite{} koneksi Berry diskret dapat diekstraksi sebagai
+
+\[
+A_\mu(k) 
+= -\frac{1}{i\,\delta k_\mu}\,\log U_n(k).
+\]
+
 \subsection{\textit{Axion Angle}}
 
 \section{Parameter dan Implementasi}
