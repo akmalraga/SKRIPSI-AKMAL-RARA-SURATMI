@@ -137,7 +137,31 @@ Rapat keadaan dalam mekanika kuantum dimodelkan sebagai;
 Karena komputer tidak bisa membaca fungsi delta, maka penilitian ini menggunakan metode histogram untuk mendekati nilai analitik. Rentang energi akan dibagi menjadi bin dengan lebar $\Delta E$, hasil diagonalisasi hamiltonian kemudian akan menentukan berapa banyak level energi $E_n$ yang masuk kedalam setiap bin, yang kemudian akan dibagi dengan $\Delta E$ untuk memperoleh kerapatan energi.
 \section{Metode Analisis Topologi}
 \subsection{\textit{Hybrid Wannier Function}}
-Fase Berry memperoleh hasil dengan mengintegralkan koneksi Berry sepanjang jalur($\bar{R}(0)$ hingga $\bar{R}(t)$). Dimana koneksi Berry dituliskan sebagai; \[ \bar{A}_n (\bar{k}) = i \langle n_k | \nabla_{\bar{R}} | n_k \rangle \]
+Penggunaan Hybrid Wannier Centers (HWC) dalam model stacking layer ini bertujuan untuk memetakan perubahan sifat topologi sistem saat dimensi material diperluas. Dengan mengamati pola winding pada spektrum Wilson Loop, perubahan fase topologis yang dipicu oleh interaksi antar-lapisan dapat diidentifikasi secara visual melalui transisi antara pola partner-switching (topologis) dan pola berpasangan (trivial), mengikuti prosedur \parencite{Cole_Python_Tight_Binding_2025}.
+\par
+Kane dan Mele \parencite{PhysRevLett.95.146802} menjelaskan bahwasanya invariant yang menjelaskan sifat topologi dari sistem \textit{Quantum Spin Hall} dapat ditentukan dari ganjil genap dari fluks, sehingga terdapat dua mode dari sistem ini; fase odd(Topologi, $Z_2=1$) dan fase even(Trivial Insulator, $Z_2=0$). Untuk memperoleh nilai dari $Z_2$, membagi ruang momentum menjadi dua sub-ruang; ruang titik TRIM(\textit{Time Reversal Symmetry}) dan sub-ruang dimana tumpang tindih antar matrix bersifat anti-unitarian($\Theta$). Untuk matrix anti-simetrik $2 \times 2$, seluruh informasi dapat diperoleh dari Pfaffian;
+\[
+P(\mathbf{k}) = Pf[\langle u_i(\mathbf{k})|\bar{\theta}|u_j(\mathbf{k})\rangle])
+\]
+
+Lewat perolehan ini, $Z_2$ invariant akhirnya dapat diperoleh dengan melihat perpindahan Pfaffian pada titik TRIM menghasilkan nol yang genap, maka sistem disebut even mode, begitupun sebaliknya.
+
+\[
+  \Delta = \frac{1}{2i\pi}\ointop_{\partial\tau} d\mathbf{k}.\nabla_{\mathbf{k}} \log [P(\mathbf + i\delta)] \hspace{1 cm} \text{mod 2},
+  \]
+\par
+Meskipun formulasi Pfaffian memberikan definisi matematis yang kokoh, implementasi numeriknya sering kali terkendala oleh ambiguitas fase fungsi Bloch. \parencite{PhysRevB.83.035108} menawarkan pendekatan alternatif melalui representasi Wannier. Dalam metode ini, invarian $Z_2$ ditentukan melalui evolusi \textit{Wannier Charge Centers} (WCC) dalam skema \textit{hybrid}. Evolusi posisi pusat muatan ini terhadap momentum k pada arah tegak lurusnya menunjukkan 'pelintiran' topologis; di mana pada fase topologis ($Z_2$=1), jalur-jalur WCC akan bertukar pasangan Kramers dan menghasilkan jumlah persilangan yang ganjil pada garis referensi di Zona Brillouin.
+\par
+Dalam ruang satu dimensi, WCC dapat didefinisikan sebagai suku integrasi dari Potensial Berry\parencite{10.1098/rspa.1984.0023}\parencite{PhysRevB.95.075146};
+\[
+  \bar{x}_n = \frac{ia_x}{2\pi} int_{-\pi / a_x}^{\pi / a_x} dk_x \mathcal{A}_n (k_x)
+\]
+Atau;
+\[
+  \bar{x}_n(k_y, k_z) = \frac{a_x}{2\pi} \int_{-\pi / a_x}^{\pi / a_x} dk_x \mathcal{A}_n (k_x, k_y, k_z)
+
+  \]
+Dimana $\mathcal{A}_n(k)$ dituliskan sebagai; \[ \bar{A}_n (\bar{k}) =  \langle n_k | \nabla_{\bar{R}} | n_k \rangle \]
 \par
 Untuk membawa persamaan ini ke dalam perhitungan numerik, 
 kita tidak dapat langsung mengevaluasi turunan 
@@ -161,12 +185,24 @@ diberikan oleh
 \simeq \exp\!\left[-i A_\mu(k)\,\delta k_\mu \right],
 \]
 
-sehingga dengan mengikuti prosedur \parencite{} koneksi Berry diskret dapat diekstraksi sebagai
+sehingga dengan mengikuti prosedur \parencite{Cole_Python_Tight_Binding_2025} koneksi Berry diskret dapat diekstraksi sebagai
 
 \[
 A_\mu(k) 
 = -\frac{1}{i\,\delta k_\mu}\,\log U_n(k).
 \]
+
+Dalam implementasi numerik yang digunakan oleh paket \parencite{Cole_Python_Tight_Binding_2025}, ekstraksi nilai $A_{\mu}(k)$ melalui prosedur diskretisasi ini disusun menjadi sebuah operator transport paralel non-Abelian yang dikenal sebagai operator Wilson Loop, $D_{\perp}(k)$. Berdasarkan formulasi \parencite{PhysRevB.84.075119}, operator ini didefinisikan sebagai produk dari \textit{link variables} di sepanjang jalur tertutup dalam zona Brillouin:
+D(k_\perp) = U(k_1) U(k_2) \dots U(k_N)
+\]
+
+Matriks Wilson Loop ini memiliki nilai eigen berbentuk $\lambda_m = e^{i\theta_m(k_\perp)}$, di mana fase $\theta_m$ merupakan fase Berry terakumulasi yang secara fisik merepresentasikan posisi pusat muatan Wannier hibrida (\textit{Hybrid Wannier Centers}) dalam satuan tanpa dimensi:
+
+\[
+\bar{x}_m(k_\perp) = \frac{\theta_m(k_\perp)}{2\pi} a_x
+\]
+
+Dengan demikian, prosedur Soluyanov-Vanderbilt untuk menentukan invarian $Z_2$ dilakukan dengan memplot evolusi fase $\theta_m$ terhadap momentum tegak lurusnya ($k_\perp$). Dalam fase topologis ($Z_2=1$), spektrum fase ini akan menunjukkan fenomena \textit{partner switching}, di mana jalur-jalur pusat muatan Wannier saling bertukar pasangan Kramers. Secara praktis, algoritma ini memastikan bahwa perhitungan tetap \textit{gauge-invariant}, sehingga sifat topologi material dapat diidentifikasi secara stabil tanpa memerlukan syarat \textit{gauge-fixing} yang rumit.
 
 \subsection{\textit{Axion Angle}}
 
