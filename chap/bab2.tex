@@ -137,6 +137,7 @@ Rapat keadaan dalam mekanika kuantum dimodelkan sebagai;
 Karena komputer tidak bisa membaca fungsi delta, maka penilitian ini menggunakan metode histogram untuk mendekati nilai analitik. Rentang energi akan dibagi menjadi bin dengan lebar $\Delta E$, hasil diagonalisasi hamiltonian kemudian akan menentukan berapa banyak level energi $E_n$ yang masuk kedalam setiap bin, yang kemudian akan dibagi dengan $\Delta E$ untuk memperoleh kerapatan energi.
 \section{Metode Analisis Topologi}
 \subsection{\textit{Hybrid Wannier Function}}
+\label{subsec:HWF}
 Penggunaan Hybrid Wannier Centers (HWC) dalam model stacking layer ini bertujuan untuk memetakan perubahan sifat topologi sistem saat dimensi material diperluas. Dengan mengamati pola winding pada spektrum Wilson Loop, perubahan fase topologis yang dipicu oleh interaksi antar-lapisan dapat diidentifikasi secara visual melalui transisi antara pola partner-switching (topologis) dan pola berpasangan (trivial), mengikuti prosedur \parencite{Cole_Python_Tight_Binding_2025}.
 \par
 Kane dan Mele \parencite{PhysRevLett.95.146802} menjelaskan bahwasanya invariant yang menjelaskan sifat topologi dari sistem \textit{Quantum Spin Hall} dapat ditentukan dari ganjil genap dari fluks, sehingga terdapat dua mode dari sistem ini; fase odd(Topologi, $Z_2=1$) dan fase even(Trivial Insulator, $Z_2=0$). Untuk memperoleh nilai dari $Z_2$, membagi ruang momentum menjadi dua sub-ruang; ruang titik TRIM(\textit{Time Reversal Symmetry}) dan sub-ruang dimana tumpang tindih antar matrix bersifat anti-unitarian($\Theta$). Untuk matrix anti-simetrik $2 \times 2$, seluruh informasi dapat diperoleh dari Pfaffian;
@@ -205,6 +206,20 @@ Matriks Wilson Loop ini memiliki nilai eigen berbentuk $\lambda_m = e^{i\theta_m
 Dengan demikian, prosedur Soluyanov-Vanderbilt untuk menentukan invarian $Z_2$ dilakukan dengan memplot evolusi fase $\theta_m$ terhadap momentum tegak lurusnya ($k_\perp$). Dalam fase topologis ($Z_2=1$), spektrum fase ini akan menunjukkan fenomena \textit{partner switching}, di mana jalur-jalur pusat muatan Wannier saling bertukar pasangan Kramers. Secara praktis, algoritma ini memastikan bahwa perhitungan tetap \textit{gauge-invariant}, sehingga sifat topologi material dapat diidentifikasi secara stabil tanpa memerlukan syarat \textit{gauge-fixing} yang rumit.
 
 \subsection{\textit{Axion Angle}}
+Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudoscalar magnetoelectric phase coupling} $\theta$ \parencite{PhysRevLett.102.146805}. Perhitungan $\theta$ adalah cara sederhana untuk meninjau adanya \textit{surface hall conductivity} pada material \parencite{PhysRevLett.58.1799}.
+\[
+  \delta \mathcal{L}_{EM} = \frac{\theta e^2}{2\pi h}\text{\textbf{E . B}}
+\]
+ Dengan itu \parencite{PhysRevB.78.195424} medefinisikan $\theta$ sebagai integrasi elektron dalam dimensi yang satu kali lebih tinggi, dengan koneksi Berry $\mathcal{A}^{\mu\nu}_j = i \langle u_{\mu} | \partial_j | u_{\nu} \rangle$, diperoleh
+\[
+  \theta = \frac{1}{2\pi} \int_{BZ} d^3 k \epsilon_{ijk} \text{Tr}[\mathcal{A}_i \partial_j \mathcal{A}_k - i \frac{2}{3}\mathcal{A}_i\mathcal{A}_j\mathcal{A}_k]
+\]
+
+\parencite{PhysRevB.78.195424} menunjukkan bahwa sistem topologis yang invarian terhadap pembalikan waktu berada pada dimensi 4 + 1 yang diklasifikasikan dengan \textit{second chern number}. Dengan itu $\theta(\beta)$ dihitung untuk ekspresi \textit{second chern number} menggunakan \textit{Four Curvature Formulation}
+\[
+  \theta = \frac{1}{16\pi} \int_{0}^{\beta} d\beta' \int d^3k \epsilon_{ijkl} \text{Tr}[\mathcal{F}_{ij}(\mathbf{k}, \beta')\mathcal{F}_{kl}(\mathbf{k}, \beta')]
+
+\]
 
 \section{Parameter dan Implementasi}
 \subsection{Tabel Parameter}
