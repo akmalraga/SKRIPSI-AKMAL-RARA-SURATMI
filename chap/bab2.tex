@@ -61,6 +61,7 @@ c_{il\bar{\sigma}}^\dagger (\mathbf{s} \times \hat{\mathbf{d}}_{ij})^z_{\bar{\si
 
 
 \subsection{\textit{Stacking Layer}}
+\label{subsec:modelstack}
 
 \begin{figure}[h]
   \centering 
@@ -223,7 +224,75 @@ Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudosc
 
 \section{Parameter dan Implementasi}
 \subsection{Tabel Parameter}
+\begin{table}[htbp]
+\centering
+\caption{Parameter Hamiltonian sistem \textit{stacking layer} Honeycomb.}
+\label{tab:param_hamiltonian}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Parameter} & \textbf{Simbol} & \textbf{Nilai} & \textbf{Satuan/Keterangan} \\ \midrule
+\textit{Hopping} dasar & $t$ & 1.0 & Unit energi ($e.V$) \\
+\textit{Spin-Orbit Coupling} & $\lambda_{SOC}$ & 0.25 -- 0.30 & Nilai paper Kane-Mele \\
+\textit{Rashba Coupling} & $\lambda_{R}$ & 0.0 -- 0.30 & Pecahnya simetri inversi \\
+\textit{Staggered Potential} & $\Delta$ & 0.0 -- 3.0 & Perbedaan energi subkisi \\
+
+Amplitudo Modulasi & $m_{axion}$ & 0.5 & Onsite potensial terhadap $\beta$ \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Konfigurasi geometri dan parameter kisi.}
+\label{tab:param_geometri}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Deskripsi/Nilai} \\ \midrule
+Struktur Kristal & Hexagonal (\textit{Honeycomb-like}) \\
+Vektor Kisi Dasar & $\vec{a}_1 = (1, 0, 0)$, $\vec{a}_2 = (0.5, \sqrt{3}/2, 0)$, $\vec{a}_3 = (0, 0, 1)$ \\
+Posisi Orbital & $A = (1/3, 1/3, 0)$, $B = (2/3, 2/3, 0)$ \\
+Derajat Kebebasan & \textit{Spinful} (Matriks Pauli $\sigma_{x,y,z}$) \\
+Arah Periodik & [0, 1, 2] (3D \textit{Bulk}) \\
+Dimensi Geometri \textit{Slab} & 20 unit sel (Arah-\textit{y} terbatas) \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Parameter numerik dan konfigurasi simulasi \texttt{PythTB}.}
+\label{tab:param_numerik}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Variabel Kode} & \textbf{Nilai/Pengaturan} \\ \midrule
+Grid Momentum (HWC) & \texttt{mesh shape} & $41 \times 41 \times 41$ \\
+Grid Momentum (Axion) & \texttt{nks} & $30 \times 30 \times 30$ \\
+Rentang Parameter $\beta$ & \texttt{betas} & $[0, 2\pi]$ \\
+Jumlah Sampling $\beta$ & \texttt{n\_beta} & 21 titik \\
+Skema Diferensiasi & \texttt{diff\_scheme} & \textit{Central} \\
+Orde Diferensiasi & \texttt{diff\_order} & 8 \\
+Arah Integrasi WCC & \texttt{axis\_idx} & 1 (Sumbu-$y$) \\ \bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Ekstensi Numerik}
+Dalam mengimplementasikan model yang telah dibangun pada \ref{subsec:modelstack}, penelitian ini memanfaatkan paket PythTB 2.0 Python yang dikembangkan oleh grub peneliti \parencite{Cole_Python_Tight_Binding_2025}. Paket ini dibangun untuk mengonstruksi dan menganalisis model Tight-Binding, yang di khususkan untuk studi teoritikal material topologis. Paket ini mereduksi kode numerik yang panjang menjadi baris singkat, menghemat waktu dan tenaga peneliti.
+\par
+Penelitian ini mengadapsi empat fungsionalitas dari paket PythTB; Konstruksi model, \textit{State sampling}, Analisis topologi, dan Visualisasi. Pada tabel berikut \ref{tab:kodex}, kami menunjukkan struktur dan fungsionalitas dari kode yang kami kembangkan.
+\begin{table}[htbp]
+\centering
+\caption{Struktur kode numerik \texttt{PythTB}.}
+\label{tab:kodex}
+\begin{tabularx}{\textwidth}{@{}l X X @{}} % Menggunakan tabularx dengan lebar setara teks
+\toprule
+\textbf{Kode} & \textbf{Fungsi} & \textbf{Keluaran} \\ \midrule
+\texttt{Model-Hamiltonian.py} & Mengonstruksi model sistem \textit{tight-binding} & Fungsi objek model \\ \addlinespace
+\texttt{Peta-spektrum.py} & Memetakan pengaruh gangguan (\textit{disorder}) terhadap efek tepi & Visualisasi peta spektrum energi \\ \addlinespace
+\texttt{Peta-prob.py} & Memetakan pengaruh gangguan terhadap probabilitas elektron pada pita \textit{bulk} & Visualisasi distribusi probabilitas elektron \\ \addlinespace
+\texttt{Dos.py} & Memetakan pengaruh gangguan terhadap kerapatan energi (\textit{Density of States}) & Peta \textit{Density of States} (DOS) \\ \addlinespace
+\texttt{hwf.py} & Menganalisis sifat topologi tiga dimensi melalui \textit{Wannier functions} & Plot evolusi \textit{Hybrid Wannier Centers} (HWC) \\ \addlinespace
+\texttt{axion-angle.py} & Menganalisis efek topologi melalui respon magnetoelektrik & Plot nilai $\theta$ terhadap parameter $\beta$ \\ \addlinespace
+\texttt{visualisasi.py} & Melakukan pemetaan struktur geometri model & Representasi visual struktur kristal \\ \bottomrule
+\end{tabularx}
+\end{table}
 
 \section{Diagram Alur Penelitian}
 
