@@ -296,3 +296,102 @@ Penelitian ini mengadapsi empat fungsionalitas dari paket PythTB; Konstruksi mod
 
 \section{Diagram Alur Penelitian}
 
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.8cm, auto,
+    % Definisi Style Blok
+    startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=red!10},
+    process/.style={rectangle, minimum width=4cm, minimum height=1cm, text centered, draw=black, fill=blue!5},
+    decision/.style={diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!10, aspect=2},
+    arrow/.style={thick,->,>=stealth},
+    line/.style={thick,-}
+]
+
+% Node - Node
+\node (start) [startstop] {Mulai};
+
+\node (lit) [process, below of=start] {Studi Literatur \& Parameterisasi ($t, \lambda_{SO}, \lambda_R$)};
+
+\node (model2d) [process, below of=lit] {Konstruksi Model 2D (Kane-Mele)};
+
+\node (stack) [process, below of=model2d] {Stacking Layer (3D Model)};
+
+\node (val) [decision, below of=stack, yshift=-0.5cm] {Validasi Efek Tepi?};
+
+\node (analisis) [process, below of=val, yshift=-0.5cm] {Analisis Respon Sistem};
+
+% Percabangan Analisis (Parallel)
+\node (spektrum) [process, below of=analisis, xshift=-3cm, text width=3.5cm] {Peta Spektrum \& Probabilitas\\(Deteksi \textit{Edge State})};
+\node (topologi) [process, below of=analisis, xshift=3cm, text width=3.5cm] {Analisis Topologi\\(HWC \& Axion $\theta$)};
+
+\node (kesimpulan) [process, below of=analisis, yshift=-3cm] {Interpretasi Fisik \& Kesimpulan};
+
+\node (stop) [startstop, below of=kesimpulan] {Selesai};
+
+% Garis Penghubung
+\draw [arrow] (start) -- (lit);
+\draw [arrow] (lit) -- (model2d);
+\draw [arrow] (model2d) -- (stack);
+\draw [arrow] (stack) -- (val);
+
+% Logika Decision
+\draw [arrow] (val) -- node[anchor=east] {Ya} (analisis);
+\draw [line] (val.east) -- ++(1.5,0) node[anchor=south] {Tidak};
+\draw [arrow] ($(val.east)+(1.5,0)$) |- (model2d.east);
+
+% Percabangan
+\draw [arrow] (analisis) -| (spektrum);
+\draw [arrow] (analisis) -| (topologi);
+
+% Penyatuan Kembali
+\draw [arrow] (spektrum) |- (kesimpulan);
+\draw [arrow] (topologi) |- (kesimpulan);
+\draw [arrow] (kesimpulan) -- (stop);
+
+\end{tikzpicture}
+\caption{Diagram alur tahapan penelitian dari konstruksi model hingga analisis topologi.}
+\label{fig:alur_penelitian}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.5cm,
+    % Definisi Style
+    io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!10},
+    process/.style={rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=cyan!5},
+    subroutine/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, dashed},
+    arrow/.style={thick,->,>=stealth}
+]
+
+% Input
+\node (param) [io] {Input Parameter ($H_{intralayer}, H_{interlayer}$)};
+
+% Core Process
+\node (pythtb) [process, below=0.8cm of param] {\textbf{PythTB Engine}\\(Konstruksi Hamiltonian)};
+
+% Output Intermediate
+\node (diag) [process, below=0.8cm of pythtb] {Diagonalisasi Matriks ($H\psi = E\psi$)};
+
+% Cabang Output
+\node (dos) [subroutine, below left=1.5cm and -1cm of diag, text width=3cm] {\texttt{Dos.py}\\Hitung Kerapatan Keadaan};
+\node (band) [subroutine, below=1.5cm of diag, text width=3cm] {\texttt{Peta-spektrum.py}\\Plot Pita Energi};
+\node (hwf) [subroutine, below right=1.5cm and -1cm of diag, text width=3cm] {\texttt{Hwf.py}\\Hitung Pusat Wannier (HWC)};
+
+% Final Result
+\node (visual) [io, below=4.5cm of diag, minimum width=8cm] {Visualisasi Data \& Grafik ($\theta$, $Z_2$, Bandgap)};
+
+% Garis
+\draw [arrow] (param) -- (pythtb);
+\draw [arrow] (pythtb) -- (diag);
+\draw [arrow] (diag) -| (dos);
+\draw [arrow] (diag) -- (band);
+\draw [arrow] (diag) -| (hwf);
+
+\draw [arrow] (dos) -- (visual.north -| dos);
+\draw [arrow] (band) -- (visual.north -| band);
+\draw [arrow] (hwf) -- (visual.north -| hwf);
+
+\end{tikzpicture}
+\caption{Skema komputasi numerik menggunakan paket PythTB untuk ekstraksi properti topologi.}
+\label{fig:alur_numerik}
+\end{figure}
