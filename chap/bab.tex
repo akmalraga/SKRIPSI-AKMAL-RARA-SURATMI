@@ -75,6 +75,21 @@ Ketika prosedur perusakan simetri inversi di atas menghasilkan celah energi, yan
 Hasil yang diperoleh oleh Haldane dapat dikaitkan dengan perolehan bilangan kuantum yang didiskusikan pada \ref{subsec:TKKN}. Seperti yang ditunjukkan oleh \parencite{10.1098/rspa.1984.0023}, Fase periodik menyebabkan terpelintirnya fungsi Bloch dalam ruang reciprocal. Pelintiran fungsi oleh Fase Berry inilah yang bertanggung jawab sebagai medan magnet imajintif pada ruang momentum, memodulasi elektron menuju ketepian kristal.
 
 \subsection{Model Kane dan Mele}
+Didasari oleh keberhasilan ekstraksi material dua dimensi grafena oleh \parencite{Novoselov2005} dan eksotisme model \parencite{PhysRevLett.61.2015}, Kane dan Mele dalam dua papernya \parencite{PhysRevLett.95.226801}\parencite{PhysRevLett.95.146802} memperkenalkan apa yang disebut $Z2$ invariant yang merupakan klasifikasi baru untuk material topologis yang begitu kuat berkat perlindungan simetri pembalikan waktu.
+\par 
+Pada penellitian pertamanya \parencite{PhysRevLett.95.226801}, mereka menunjukkan bagaimana aplikasi dari dua model \parencite{PhysRevLett.61.2015} dan doping kopling orbit spin pada grafena menciptakan modulasi yang unik, dimana pemisahan spin ini memaksa adanya transfer spin up dan down ketepian material, namun modulasi arah yang berbanding terbalik antar dua spin membuat total \textit{chern number} menjadi nol. Kane mele juga menunjukkan adanya peralihan pita valensi menuju konduksi dan sebaliknya(yang merupakan konsekuensi \textit{Krammer's pair}) pada struktur pita ribbon sistem. Untuk memperolehnya, Kane dan Mele merumuskan model hamiltonian Tight-Binding
+\[
+  \begin{align}
+  \mathcal{H}_{\text{KM},l} = t \sum_{\langle i,j \rangle,\sigma} c_{il\sigma}^\dagger c_{jl\sigma} 
++ i\lambda_{\text{SO}} \sum_{\langle\langle i,j \rangle\rangle,\sigma} \nu_{ij} c_{il\sigma}^\dagger s^z_{\sigma\sigma'} c_{jl\sigma'} \\
+    + i\lambda_R \sum_{\langle i,j \rangle, \sigma \sigma'} c_{i\sigma}^\dagger (\mathbf{s} \times \hat{\mathbf{d}_{ij}})^z_{\sigma \sigma'}c_{j\sigma'}
++ \lambda_v \sum_{i,\sigma} \xi_i c_{il\sigma}^\dagger c_{il\sigma}.
+\end{align}
+\]
+
+Di akhir mereka juga menunjukkan bagaimana perilaku spintronik ini dapat mengevolusi perangkat elektronik modern seperti pengembangan transistor spintronik yang \textit{dissipationless}.
+\par 
+Pada penelitian keduanya \parencite{PhysRevLett.95.146802}, Kane dan Mele secara resmi memperkenalkan klasifikasi topologis yang mereka temukan pada penelitian sebelumnya. Dengan menggunakan argumen Laughlin, Kane dan Mele menjelaskan bagaimana invariant pembalikan waktu dipengaruhi hanya oleh genap dan ganjil flux yang diberikan pada sistem silinder. Dari argumen inilah Kane dan Mele meyakinkan perihal klasifikasi $Z2$ yang hanya bernilai 0 dan 1. Untuk menghitung properti tersebut, Kane dan Mele menggunakan Pfaffian untuk melihat pelintiran fungsi gelombang pada ruang momentum. Namun pada penelitian lebih lanjut \parencite{Vanderbilt2018} \parencite{PhysRevB.75.121403} \parencite{PhysRevB.83.035108}, nilai invariant $Z2$ kerap diselidiki menggunakan parameter yang lebih mudah dan presisi secara numerik.
 
 \section{Tujuan Penelitian}
 \begin{enumerate}
