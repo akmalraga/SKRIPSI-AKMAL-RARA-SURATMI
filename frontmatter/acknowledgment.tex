@@ -128,8 +128,57 @@ Untuk memenuhi persamaan Schrodinger,$ -\hbar \frac{d\gamma_n(t)}{dt} |\Psi(t) \
     \frac{d\gamma_n(t)}{dt} \langle n, \vec{R}(t)|n, \vec{R}(t) \rangle &= i \dot{\vec{R}} \cdot \langle n, \vec{R}(t)| \nabla_{\vec{R}} |n, \vec{R}(t) \rangle \\
     \frac{d\gamma_n(t)}{dt} &= i \dot{\vec{R}} \cdot \langle n, \vec{R}(t)| \nabla_{\vec{R}} |n, \vec{R}(t) \rangle \\ 
     \gamma_n(t) &= i \int_0^t ds \quad \dot{\vec{R}}(s)\langle n, \vec{R}(s)| \nabla_{\vec{R}} |n, \vec{R}(s) \rangle \\ 
-                &= i \int_{\vec{R_1}}^{\vec{R_2}} d\vec{R} \; \dot{\vec{R}}(s)\langle n, \vec{R}| \nabla_{\vec{R}} |n, \vec{R} \rangle
+                &= i \int_{\vec{R_1}}^{\vec{R_2}} d\vec{R} \; \langle n, \vec{R}| \nabla_{\vec{R}} |n, \vec{R} \rangle
+  \end{align}
+Fase Berry $\gamma_n$ harus real untuk memenuhi konversasi probabilitas gelombang.
+
+\begin{align}
+\gamma_n &= \int_{\vec{R}_1}^{\vec{R}_2} d\vec{R} \cdot i \langle n, \vec{R} | \nabla_{\vec{R}} | n, \vec{R} \rangle \\
+&= \int_{s_1}^{s_2} ds \frac{d\vec{R}(s)}{ds} \cdot i \langle n, \vec{R} | \nabla_{\vec{R}} | n, \vec{R} \rangle \\
+&\text{Fakta bahwa: } \frac{d}{ds} | n, \vec{R}(s) \rangle = \left( \nabla_{\vec{R}} | n, \vec{R} \rangle \right) \cdot \frac{d\vec{R}(s)}{ds} \\
+\gamma_n &= \int_{s_1}^{s_2} ds \, i \left\langle n, \vec{R} \right| \frac{d}{ds} \left| n, \vec{R} \right\rangle
 \end{align}
+
+\fbox{$\langle n, \vec{R} | n, \vec{R} \rangle = 1$} \quad 
+\fbox{$\frac{d}{ds} \langle n, \vec{R} | n, \vec{R} \rangle = 0$} \quad 
+\fbox{$\frac{d}{ds} \langle n, \vec{R} | = \left( \frac{d}{ds} | n, \vec{R} \rangle \right)^\dagger$}
+
+\begin{align*}
+\frac{d}{ds} \langle n, \vec{R}(s) | n, \vec{R}(s) \rangle &= \frac{d}{ds} \langle n, \vec{R} | | n, \vec{R} \rangle + \langle n, \vec{R} | \frac{d}{ds} | n, \vec{R} \rangle \\
+&= 2\text{Re} \left[ \langle n, \vec{R} | \frac{d}{ds} | n, \vec{R} \rangle \right] \\ 
+&= 0
+\end{align*}
+Karena $\langle n, \vec{R} | \frac{d}{ds} | n, \vec{R} \rangle$ sama dengan 0, maka fase berry $\gamma_n$ harus real
+\par 
+Isi integral dari fase berry disebut koneksi Berry $\vec{A}_n(\vec{R})$ yang dapat dipandang sebagai sebuah medan vector.
+\begin{equation}
+  A_{n, \mu}(\vec{R}) = i \langle n, \vec{R} | \frac{\partial}{\partial r_\mu} | n, \vec{R} \rangle
+\end{equation}
+
+Misal koneksi Berry diberikan sebagai $\vec{A_n}(k) = i \langle n_{\vec{k}} | \nabla | n_{\vec{k}} \rangle$ dan mengaplikasikan projector $\hat{P}_{\vec{k}} = | n_{\vec{k}} \rangle \langle n_{\vec{k}} |$
+
+\fbox{$\vec{A}_n(\vec{k}) = i \text{Tr} [\hat{P}_{\vec{k}} \nabla_{\vec{k}} \hat{P}_{\vec{k}}]$} \quad 
+\fbox{$\hat{P}_{\vec{k}} = | n_{\vec{k}} \rangle \langle n_{\vec{k}} |$}
+
+\begin{align*}
+\gamma_n &= \int_{\vec{k}_1}^{\vec{k}_2} \vec{A}_n(\vec{k}) \cdot d\vec{k} \approx \sum_{j=0}^{N-1} \vec{A}_n(\vec{k}_j) \cdot d\vec{k}_j = i \sum_{j=0}^{N-1} \text{Tr} [\hat{P}_{\vec{k}_j} \nabla_{\vec{k}} \hat{P}_{\vec{k}_j}] \cdot d\vec{k}_j \\
+&= i \sum_{j=0}^{N-1} \text{Tr} [\hat{P}_{\vec{k}_j} (\nabla_{\vec{k}} \hat{P}_{\vec{k}_j}) \cdot d\vec{k}_j] \approx i \sum_{j=0}^{N-1} \text{Tr} [\hat{P}_{\vec{k}_j} (\hat{P}_{\vec{k}_{j+1}} - \hat{P}_{\vec{k}_j})] \\
+&= i \sum_{j=0}^{N-1} \langle n_{\vec{k}_j} | n_{\vec{k}_{j+1}} \rangle - 1
+\end{align*}
+
+\begin{center}
+    \textcolor{red}{\textbf{Parallel transport}} \\
+    \colorbox{yellow!20}{
+        $\displaystyle \langle n_{\vec{k}_j} | n_{\vec{k}_{j+1}} \rangle = 1 - i \vec{A}_n(\vec{k}_j) \cdot d\vec{k}_j$
+    }
+\end{center}
+\par 
+Koneksi Berry $A_n(k)$ bersifat gauge-dependent, dimana transormasinya menghasilkan suku gradient fase $\nabla_k \phi (k)$$\vec{A}_n(\vec{k}) \xrightarrow{\text{Gauge}} \vec{A}_n(\vec{k}) + \nabla_{\vec{k}} \phi(k)$. Untuk itu, kelengkungan Berry diberikan untuk memberikan parameter yang gauge-invariant.
+\begin{align*}
+\vec{\Omega}_n(\vec{k}) &\equiv \nabla \times \vec{A}_n(\vec{k}) \\
+\vec{\Omega}_n(\vec{k}) &\xrightarrow{\text{Gauge}} \vec{\Omega}_n(\vec{k})
+\end{align*}
+
 
 \section{Halangan Topologi pada Fungsi Wannier}
 
