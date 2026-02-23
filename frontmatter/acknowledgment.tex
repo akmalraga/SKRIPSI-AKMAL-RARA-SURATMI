@@ -1,5 +1,6 @@
 \chapter{Derivasi Matematis}
 \section{Tight Binding Model}
+\label{sec:tbmodel}
 Persamaan Schrodinger untuk potensial \textit{single atom}:$U(r)$
 \begin{align}
     \left[\frac{p^2}{2m} + U(r) \right]\phi(r)=E_0 \phi(r)
@@ -33,7 +34,12 @@ Normalisasi Fungsi Gelombang:
 Maka \textit{first order correction} dari energi:
 \begin{align}
     \psi_k^*(r)H\psi_k=\frac{1}{N}\sum_j \sum_m e^{ik.(r_j-r_m)}\int\phi^*(r-r_m)H\phi(r-r_j)dr
-    \\ \psi_k^*(r)H\psi_k=\frac{1}{N} \sum_n e^{-ik.\rho(n)}\int\phi^*(r-\rho_n)H\phi(r)dr &&(\rho_n=r_m-r_j)
+    \\ \psi_k^*(r)H\psi_k= \sum_n e^{-ik.\rho(n)}\int\phi^*(r)H\phi(r - r_j)
+\end{align}
+Misal $\gamma = \phi^*(r)H\phi(r - r_j) $, dan basis orbital lokal $|f_n \rangle = | \phi_a (r - r_j) \rangle$ maka Hamiltonian Tight Binding dapat kita modelkan sebagai
+\begin{align}
+  H = E_0 \sum_n |f_n \rangle \langle f_n | + \gamma \sum_n [|f_n \rangle \langle f_{n+1} | + |f_{n+1}\rangle \langle f_n | ] \\ 
+  H = \sum_n a_n |f_n \rangle \langle f_n | +  \sum_n b_{n+1} [|f_n \rangle \langle f_{n+1} | + |f_{n+1}\rangle \langle f_n | ] \\ 
 \end{align}
 
 \section{Operator Kreasi dan Anihilasi}
@@ -48,16 +54,16 @@ a^\dagger &= \sqrt{\frac{m\omega}{2\hbar}} \left( x - \frac{i}{m\omega} p \right
 \end{align}
 Komutator dari operator a dan a† dengan relasi [x,p]=iℏ:
 \begin{align}
-[a, a^\dagger] &= \frac{m\omega}{2\hbar} \left[ x + \frac{i}{m\omega} p, x - \frac{i}{m\omega} p \right] \
-[a, a^\dagger] &= \frac{m\omega}{2\hbar} \left( -\frac{i}{m\omega}[x,p] + \frac{i}{m\omega}[p,x] \right) \
-[a, a^\dagger] &= \frac{m\omega}{2\hbar} \left( -\frac{i}{m\omega}(i\hbar) + \frac{i}{m\omega}(-i\hbar) \right) \
+[a, a^\dagger] &= \frac{m\omega}{2\hbar} \left[ x + \frac{i}{m\omega} p, x - \frac{i}{m\omega} p \right] \\
+[a, a^\dagger] &= \frac{m\omega}{2\hbar} \left( -\frac{i}{m\omega}[x,p] + \frac{i}{m\omega}[p,x] \right) \\
+[a, a^\dagger] &= \frac{m\omega}{2\hbar} \left( -\frac{i}{m\omega}(i\hbar) + \frac{i}{m\omega}(-i\hbar) \right) \\
 [a, a^\dagger] &= \frac{m\omega}{2\hbar} \left( \frac{\hbar}{m\omega} + \frac{\hbar}{m\omega} \right) = 1
 \end{align}
 Substitusi perkalian operator ke dalam Hamiltonian:
 \begin{align}
-a^\dagger a &= \frac{m\omega}{2\hbar} \left( x - \frac{i}{m\omega} p \right) \left( x + \frac{i}{m\omega} p \right) \
-a^\dagger a &= \frac{m\omega}{2\hbar} \left( x^2 + \frac{p^2}{m^2\omega^2} + \frac{i}{m\omega}[x,p] \right) \
-a^\dagger a &= \frac{m\omega}{2\hbar} x^2 + \frac{p^2}{2m\hbar\omega} - \frac{1}{2} \
+a^\dagger a &= \frac{m\omega}{2\hbar} \left( x - \frac{i}{m\omega} p \right) \left( x + \frac{i}{m\omega} p \right) \\
+a^\dagger a &= \frac{m\omega}{2\hbar} \left( x^2 + \frac{p^2}{m^2\omega^2} + \frac{i}{m\omega}[x,p] \right) \\
+a^\dagger a &= \frac{m\omega}{2\hbar} x^2 + \frac{p^2}{2m\hbar\omega} - \frac{1}{2} \\
 \hbar\omega \left( a^\dagger a + \frac{1}{2} \right) &= \frac{p^2}{2m} + \frac{1}{2}m\omega^2 x^2
 \end{align}
 Hamiltonian dalam bentuk operator jumlah partikel N=a†a:
@@ -80,6 +86,12 @@ Aksi operator kreasi (menciptakan partikel/eksitasi) dan anihilasi (memusnahkan)
 a^\dagger |n\rangle &= \sqrt{n+1} |n+1\rangle \
 a |n\rangle &= \sqrt{n} |n-1\rangle
 \end{align}
+Dari operator ini kita dapat menuliskan kembali model Tight-Binding \ref{sec:tbmodel},
+\[
+\begin{aligned}
+  H =\sum_i \epsilon a^{\dagger}_{i} a_{i} -t \sum_{\langle i,j \rangle} \left( a^{\dagger}_{i} a_{j} + \text{H.c.} \right) 
+    \end{aligned}
+\]
 
 \section{Derivasi Fase Berry, Koneksi Berry, dan Kelengkungan Berry}
 
@@ -179,47 +191,187 @@ Koneksi Berry $A_n(k)$ bersifat gauge-dependent, dimana transormasinya menghasil
 \vec{\Omega}_n(\vec{k}) &\xrightarrow{\text{Gauge}} \vec{\Omega}_n(\vec{k})
 \end{align*}
 
+\section{Formulasi Wannier Center}
 
-\section{Halangan Topologi pada Fungsi Wannier}
+\subsection*{Bloch State}
 
-Definisi Fungsi Wannier $| W_{n\mathbf{R}} \rangle$ dari transformasi Fourier fungsi Bloch $|\psi_{n\mathbf{k}}\rangle$:
 \begin{align}
-    | W_{n\mathbf{R}} \rangle = \frac{V}{(2\pi)^d} \int_{\text{BZ}} d\mathbf{k} \, e^{-i\mathbf{k}\cdot\mathbf{R}} |\psi_{n\mathbf{k}}\rangle
-\end{align}
-Fungsi Bloch memiliki kebebasan \textit{gauge} terhadap pergeseran fase $\theta(\mathbf{k})$:
-\begin{align}
-    |\tilde{\psi}_{n\mathbf{k}}\rangle = e^{i\theta(\mathbf{k})} |\psi_{n\mathbf{k}}\rangle
-\end{align}
-Syarat lokalisasi eksponensial $| W_{n\mathbf{R}} \rangle$ mengharuskan $|\tilde{\psi}_{n\mathbf{k}}\rangle$ bersifat kontinu dan analitik (\textit{smooth}) di seluruh Zona Brillouin (BZ).
-\\~\\
-Koneksi Berry $\mathbf{A}(\mathbf{k})$ dan Kelengkungan Berry $\Omega(\mathbf{k})$ didefinisikan dari bagian periodik fungsi Bloch $|u_{n\mathbf{k}}\rangle$:
-\begin{align}
-    \mathbf{A}(\mathbf{k}) &= i \langle u_{n\mathbf{k}} | \nabla_{\mathbf{k}} | u_{n\mathbf{k}} \rangle \\
-    \mathbf{A}'(\mathbf{k}) &= \mathbf{A}(\mathbf{k}) - \nabla_{\mathbf{k}} \theta(\mathbf{k}) \\
-    \Omega(\mathbf{k}) &= \nabla_{\mathbf{k}} \times \mathbf{A}(\mathbf{k})
+\psi_{n\mathbf{k}}(\mathbf{r})
+&=
+e^{i\mathbf{k}\cdot\mathbf{r}}
+u_{n\mathbf{k}}(\mathbf{r}) \\
+u_{n\mathbf{k}}(\mathbf{r}+\mathbf{R})
+&=
+u_{n\mathbf{k}}(\mathbf{r})
 \end{align}
 
-Berdasarkan Teorema Stokes, integrasi Kelengkungan Berry pada seluruh permukaan tertutup BZ ($T^2$) adalah:
+Normalisasi:
 \begin{align}
-    \int_{\text{BZ}} \Omega(\mathbf{k}) \, d^2k &= \int_{\text{BZ}} \left[ \nabla_{\mathbf{k}} \times \mathbf{A}(\mathbf{k}) \right] d^2k \nonumber \\ 
-    &= \oint_{\partial(\text{BZ})} \mathbf{A}(\mathbf{k}) \cdot d\mathbf{l}
-\end{align}
-Jika $\mathbf{A}(\mathbf{k})$ bersifat \textit{smooth} dan kontinu secara global di seluruh BZ, maka integral kontur pada batas zona akan saling meniadakan:
-\begin{align}
-    \oint_{\partial(\text{BZ})} \mathbf{A}(\mathbf{k}) \cdot d\mathbf{l} = 0 \label{eq:stokes_zero}
+\langle \psi_{n\mathbf{k}'} | \psi_{n\mathbf{k}} \rangle
+=
+\frac{(2\pi)^3}{V}
+\delta(\mathbf{k}-\mathbf{k}')
 \end{align}
 
-Di sisi lain, bilangan kuantum topologi (\textit{Chern Number}, $C$) didefinisikan sebagai:
+\subsection*{Definisi Wannier Function}
+
 \begin{align}
-    C &= \frac{1}{2\pi} \int_{\text{BZ}} \Omega(\mathbf{k}) \, d^2k 
-\end{align}
-Pada material fase topologis non-trivial ($C \neq 0$):
-\begin{align}
-    \frac{1}{2\pi} \int_{\text{BZ}} \Omega(\mathbf{k}) \, d^2k &\neq 0 \nonumber \\
-    \oint_{\partial(\text{BZ})} \mathbf{A}(\mathbf{k}) \cdot d\mathbf{l} &\neq 0 \label{eq:chern_nonzero}
+| w_{n0} \rangle
+=
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+| \psi_{n\mathbf{k}} \rangle
 \end{align}
 
-Persamaan (\ref{eq:stokes_zero}) dan (\ref{eq:chern_nonzero}) saling berkontradiksi. Hal ini membuktikan bahwa pada sistem dengan $C \neq 0$, Koneksi Berry $\mathbf{A}(\mathbf{k})$ dan fungsi Bloch $|u_{n\mathbf{k}}\rangle$ tidak mungkin terdefinisi secara \textit{smooth} di seluruh Hilbert manifold. Akibatnya, transformasi Fourier tidak konvergen secara eksponensial, dan representasi Wannier 3D yang terlokalisasi tidak dapat dikonstruksi.
+Substitusi bentuk Bloch:
+
+\begin{align}
+| w_{n0} \rangle
+=
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+e^{i\mathbf{k}\cdot\mathbf{r}}
+| u_{n\mathbf{k}} \rangle
+\end{align}
+
+\subsection*{Identitas Operator Posisi}
+
+\begin{align}
+\mathbf{r} e^{i\mathbf{k}\cdot\mathbf{r}}
+=
+i \nabla_{\mathbf{k}} e^{i\mathbf{k}\cdot\mathbf{r}}
+\end{align}
+
+\subsection*{Aksi Operator Posisi}
+
+\begin{align}
+\mathbf{r}
+| w_{n0} \rangle
+&=
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+\mathbf{r}
+e^{i\mathbf{k}\cdot\mathbf{r}}
+| u_{n\mathbf{k}} \rangle \\
+&=
+i
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+\nabla_{\mathbf{k}}
+\left(
+e^{i\mathbf{k}\cdot\mathbf{r}}
+\right)
+| u_{n\mathbf{k}} \rangle
+\end{align}
+
+Integrasi parsial di ruang $\mathbf{k}$:
+
+\begin{align}
+&=
+i
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+\nabla_{\mathbf{k}}
+\left(
+e^{i\mathbf{k}\cdot\mathbf{r}}
+| u_{n\mathbf{k}} \rangle
+\right) \\
+&\quad
+-
+i
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+e^{i\mathbf{k}\cdot\mathbf{r}}
+\nabla_{\mathbf{k}}
+| u_{n\mathbf{k}} \rangle
+\end{align}
+
+Dengan periodisitas pada batas BZ, suku permukaan hilang:
+
+\begin{align}
+\mathbf{r}
+| w_{n0} \rangle
+=
+i
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+e^{i\mathbf{k}\cdot\mathbf{r}}
+\nabla_{\mathbf{k}}
+| u_{n\mathbf{k}} \rangle
+\end{align}
+
+\subsection*{Ekspektasi Nilai Posisi}
+
+\begin{align}
+\langle w_{n0} |
+\mathbf{r}
+| w_{n0} \rangle
+&=
+i
+\left(
+\frac{V}{(2\pi)^3}
+\right)^2
+\int_{\text{BZ}} d^3k
+\int_{\text{BZ}} d^3k'
+\,
+\langle u_{n\mathbf{k}'} |
+e^{-i\mathbf{k}'\cdot\mathbf{r}}
+e^{i\mathbf{k}\cdot\mathbf{r}}
+\nabla_{\mathbf{k}}
+| u_{n\mathbf{k}} \rangle
+\end{align}
+
+Gunakan ortogonalitas Bloch state:
+
+\begin{align}
+\langle \psi_{n\mathbf{k}'} | \psi_{n\mathbf{k}} \rangle
+=
+\frac{(2\pi)^3}{V}
+\delta(\mathbf{k}-\mathbf{k}')
+\end{align}
+
+Sehingga diperoleh:
+
+\begin{align}
+\langle w_{n0} |
+\mathbf{r}
+| w_{n0} \rangle
+=
+i
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}} d^3k \,
+\langle u_{n\mathbf{k}} |
+\nabla_{\mathbf{k}}
+u_{n\mathbf{k}} \rangle
+\end{align}
+
+\subsection*{Definisi Berry Connection}
+
+\begin{align}
+\mathbf{A}_n(\mathbf{k})
+=
+i
+\langle u_{n\mathbf{k}} |
+\nabla_{\mathbf{k}}
+u_{n\mathbf{k}} \rangle
+\end{align}
+
+\subsection*{Hasil Akhir}
+
+\begin{align}
+\boxed{
+\mathbf{r}_n
+=
+\langle w_{n0} |
+\mathbf{r}
+| w_{n0} \rangle
+=
+\frac{V}{(2\pi)^3}
+\int_{\text{BZ}}
+d^3k \,
+\mathbf{A}_n(\mathbf{k})
+}
+\end{align}
 
 \chapter{Lampiran Kode Program}
 \label{app:kode-program}
