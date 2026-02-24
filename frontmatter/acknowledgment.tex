@@ -376,23 +376,82 @@ d^3k \,
 \chapter{Lampiran Kode Program}
 \label{app:kode-program}
 \section{Kode Utama Simulasi(Model Kane-Mele 3D)}
-Berikut adalah kode utama yang memodelkan sistem yang kita teliti dalam lingkungan PyhTB:
+Berikut adalah kode utama yang memodelkan sistem yang kita teliti dalam lingkungan PyhTB, dijadikan sebagai fungsi model yang dipanggil pada kode-kode analisis berikutnya:
 
-\begin{lstlisting}[language=Python, caption={Model Stacking Graphene}, label={lst:kode-simulasi}]
+\begin{lstlisting}[language=Python, caption={Model Stacking Graphene}, label={lst:model-stacking}]
+from pythtb import TBModel, Lattice
 import numpy as np
+
+def set_model(t, soc, rashba, delta, W):
+    sigma_z = np.array([0., 0., 0., 1.])
+    sigma_x = np.array([0., 1., 0., 0])
+    sigma_y = np.array([0., 0., 1., 0])
+
+    r3h = np.sqrt(3.0) / 2.0
+    sigma_a = 0.5 * sigma_x - r3h * sigma_y
+    sigma_b = 0.5 * sigma_x + r3h * sigma_y
+    sigma_c = -1.0 * sigma_x
+
+    lat = [[1, 0, 0], [0.5, np.sqrt(3.0)/2.0, 0.0], [0.0, 0.0, 1.0]]
+    orb = [[1./3., 1./3., 0.0], [2./3., 2./3., 0.0]]
+    lattice = Lattice(lat_vecs=lat, orb_vecs=orb, periodic_dirs=...)
+    model = TBModel(lattice=lattice, spinful=True)
+
+    disorder_values = np.random.uniform(-W/2, W/2, size=len(orb))
+    onsite_energies = [
+        delta + disorder_values[i] if i % 2 == 0 else -delta + disorder_values[i]
+
+        for i in range(len(orb))
+    ]
+    model.set_onsite(onsite_energies)
+
+    # Hopping terms
+
+    for lvec in ([0, 0, 0], [-1, 0, 0], [0, -1, 0]):
+        model.set_hop(t, 0, 1, lvec)
+
+    for lvec in ([1, 0, 0], [-1, 1, 0], [0, -1, 0]):
+
+        model.set_hop(soc * 1.j * sigma_z, 0, 0, lvec)
+
+    for lvec in ([-1, 0, 0], [1, -1, 0], [0, 1, 0]):
+
+        model.set_hop(soc * 1.j * sigma_z, 1, 1, lvec)
+
+    model.set_hop(0.1 * soc * 1j * sigma_z, 1, 1, [0, 0, 1])
+    model.set_hop(-0.1 * soc * 1j * sigma_z, 0, 0, [0, 0, 1])
+
+    model.set_hop(1.j * rashba * sigma_a, 0, 1, [0, 0, 0], mode="add")
+    model.set_hop(1.j * rashba * sigma_b, 0, 1, [-1, 0, 0], mode="add")
+    model.set_hop(1.j * rashba * sigma_c, 0, 1, [0, -1, 0], mode="add")
+
+    return model
+
+model = set_model(1.0, 0.3, 0.1, 1.0, 0.0)
+model.info()
+\end{lstlisting}
+
+\section{Kode Validasi Model}
+Berikut adalah kode yang kami gunakan untuk memvalidasi model:
+
+\begin{lstlisting}[language=Python, caption={Visualisasi Kristal}, label={lst:vis-model}]
+
+from pythtb import TBModel, Lattice
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
-from pythtb import tb_model
+import plotly.express as px
+from HamiltonianModel.hamiltonian import set_model
 
-# Konstanta dan parameter
-delta = 0.7
-t = -1.0
-soc_list = np.array([-0.054, -0.24])
+delta = 0.0
+t = 1.0
+soc_list = np.array([0.06, 0.24])
+soc_val = 0.125
 rashba = 0.05
-width = 10
-nkr = 101
-W = 15*soc_list
-n_avg = 10  # jumlah sample untuk averaging
+W = 0 * soc_list
 
+# Matriks Pauli
 sigma_z = np.array([0., 0., 0., 1.])
 sigma_x = np.array([0., 1., 0., 0])
 sigma_y = np.array([0., 0., 1., 0])
@@ -401,184 +460,411 @@ sigma_a = 0.5 * sigma_x - r3h * sigma_y
 sigma_b = 0.5 * sigma_x + r3h * sigma_y
 sigma_c = -1.0 * sigma_x
 
-def set_model(t, soc, rashba, delta, W):
-    lat = [[1, 0, 0], [0.5, np.sqrt(3.0)/2.0, 0.0], [0.0, 0.0, 1.0]]
-    orb = [[1./3., 1./3., 0.0], [2./3., 2./3., 0.0]]
-    model = tb_model(3, 3, lat, orb, nspin=2)
+data_csv =[]
+my_model = set_model(t, soc_val, rashba, delta, 0)
 
-    disorder_values = np.random.uniform(-W/2, W/2, size=len(orb))  
-    onsite_energies = [delta + disorder_values[i] if i % 2 == 0 else -delta + disorder_values[i] for i in range(len(orb))]
-    model.set_onsite(onsite_energies)
+print(my_model)
+my_model.info()
 
-    for lvec in ([0, 0, 0], [-1, 0, 0], [0, -1, 0]):
-        model.set_hop(t, 0, 1, lvec)
-    for lvec in ([1, 0, 0], [-1, 1, 0], [0, -1, 0]):
-        model.set_hop(soc * 1.j * sigma_z, 0, 0, lvec)
-    for lvec in ([-1, 0, 0], [1, -1, 0], [0, 1, 0]):
-        model.set_hop(soc * 1.j * sigma_z, 1, 1, lvec)
-    model.set_hop(0.3 * soc * 1j * sigma_z, 1, 1, [0, 0, 1])
-    model.set_hop(-0.3 * soc * 1j * sigma_z, 0, 0, [0, 0, 1])
-    model.set_hop(1.j * rashba * sigma_a, 0, 1, [0, 0, 0], mode="add")
-    model.set_hop(1.j * rashba * sigma_b, 0, 1, [-1, 0, 0], mode="add")
-    model.set_hop(1.j * rashba * sigma_c, 0, 1, [0, -1, 0], mode="add")
+sc_model = my_model.make_supercell([[2, 1, 0], [-1, 2, 0], [0, 0, 2]], to_home=True)
+slab_model = sc_model.cut_piece(3,1, glue_edges=False)
+pos = slab_model.get_orb_vecs()
+z_vals = pos[:,2]
+z_unique = np.unique(np.round(z_vals, 5))
+colors_layer = ["red", "green", "blue", "orange", "purple"]
+color_site = []
 
-    return model
+for z in z_vals:
+    idx = np.where(z_unique == np.round(z,5))[0][0]
+    color_site.append(colors_layer[idx % len(colors_layer)])
+
+fig = slab_model.visualize_3d(show_model_info=False, site_colors=color_site)
+
+k_nodes = [[0, 0], [2 / 3, 1 / 3], [0.5, 0.5], [1 / 3, 2 / 3], [0, 0], [0.5, 0.5]]
+k_label = (r"$\Gamma $", r"$K$", r"$M$", r"$K^\prime$", r"$\Gamma $", r"$M$")
+fig, ax = slab_model.plot_bands(
+        nk=500, k_nodes=k_nodes, k_node_labels=k_label, proj_orb_idx=[0], lw=1
+       )
+fig.show()
+
 \end{lstlisting}
 
-\section{Kode Tambahan: Analisis Data}
-\textit{Syntax} tambahan untuk menganalisis hasil simulasi:
+\begin{lstlisting}[language=Python, caption={Validasi \textit{Edge State}}, label={lst:vis-model}]
 
-\begin{lstlisting}[language=Python, caption={Kode Analisis DOS}, label={lst:kode-analisis DOS}]
+from pythtb import TBModel, Lattice
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from HamiltonianModel.hamiltonian import set_model
+delta = 0.0
+t = 1.0
+soc_val = 0.1
+rashba = 0.1
+W = 0 * soc_val
 
-dos_at_zero = []
+# Matriks Pauli
 
-for W in W_values:
-    all_eigenvalues = []
-    for _ in range(n_samples):
-        # Bangun model dengan disorder W
-        my_model = set_model(t, soc, rashba, delta, W)
-        
-        # Potong model menjadi ribbon
-        ribbon_model = my_model.cut_piece(width, fin_dir=1, glue_edgs=False)
-        
-        # Hitung eigenenergi
-        (k_vec, k_dist, k_node) = ribbon_model.k_path(
-            [[0.,0.], [2./3.,1./3.], [.5,.5], [1./3.,2./3.], [0.,0.]],
-            nkr, report=False
-        )
-        rib_eval = ribbon_model.solve_all(k_vec)
-        all_eigenvalues.append(rib_eval.flatten())
-    
-    # Gabungkan semua eigenenergi
-    combined_eval = np.concatenate(all_eigenvalues)
-    
-    # Hitung histogram dan ekstrak DOS pada E=0
-    hist, bin_edges = np.histogram(combined_eval, bins=50, range=(-4., 4.), density=True)
-    bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
-    idx_zero = np.argmin(np.abs(bin_centers))  # Indeks bin terdekat E=0
-    dos_at_zero.append(hist[idx_zero])
+sigma_z = np.array([0., 0., 0., 1.])
+sigma_x = np.array([0., 1., 0., 0])
+sigma_y = np.array([0., 0., 1., 0])
 
-# Menyimpan data ke dalam file CSV
-with open('dos_at_zero.csv', mode='w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(["W/soc", "DOS at E=0"])  # Menulis header
-    for W, dos in zip(W_values / soc, dos_at_zero):
-        writer.writerow([W, dos])  # Menulis setiap baris data
+r3h = np.sqrt(3.0) / 2.0
 
+sigma_a = 0.5 * sigma_x - r3h * sigma_y
+sigma_b = 0.5 * sigma_x + r3h * sigma_y
+sigma_c = -1.0 * sigma_x
 
-# Plot hasil
-#z2 =ribbon_model.z2_invariant()
-#print(f"Z2 invariant: {z2}")
-plt.plot(W_values/soc, dos_at_zero, 'o-', label='Simulasi')
-plt.axvline(x=2.5, c='r', ls='--', label='Prediksi $W_c=2.5\lambda_{SO}$')
-plt.xlabel("$W/\lambda_{SO}$")
-plt.ylabel("DOS pada $E=0$")
-plt.legend()
+my_model = set_model(t, soc_val, rashba, delta, W)
+print(my_model)
+my_model.info()
+
+fin_model = my_model.make_finite(periodic_dirs=[1], num_cells=[20])
+
+k_nodes = [
+    [0.0, 0.0],  # Gamma
+    [0.5, 0.0],  # Mx
+    [0.5, 0.5],  # Lx
+    [0.0, 0.5],  # A
+    [0.0, 0.0]   # Gamma
+]
+k_labels = (r"$\Gamma $",r"$M_x$", r"$L_x$", r"$A$", r"$\Gamma $")
+
+#fin_model.visualize_3d(draw_hoppings=True)
+
+fig, ax = fin_model.plot_bands(
+    nk=500, k_nodes=k_nodes, k_node_labels=k_labels, proj_orb_idx=[1]
+)
+plt.savefig('result/ribbon_band.pdf')
 plt.show()
 
-
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption={Kode Analisis Pita Energi}, label={lst:kode-analisis Pita Energi}]
+\section{Kode Peta Variasi Parameter}
+Berikut adalah kode yang kami gunakan untuk menunjukkan pengaruh variasi parameter lewat peta spektrum, peta probabilitas, dan peta kerapatan energi:
 
-fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+\begin{lstlisting}[language=Python, caption={Konstruksi Peta Spektrum}, label={lst:peta-spektrum}]
 
-for je, soc_val in enumerate(soc_list):
-    eval_total = None
-    for _ in range(n_avg):
-        my_model = set_model(t, soc_val, rashba, delta, W)
-        ribbon_model = my_model.cut_piece(width, fin_dir=1, glue_edgs=False)
-        path = [[0.,0.],[2./3.,1./3.],[.5,.5],[1./3.,2./3.],[0.,0.]]
-        (k_vec, k_dist, k_node) = ribbon_model.k_path(path, nkr, report=False)
-        rib_eval = ribbon_model.solve_all(k_vec, eig_vectors=False)
+from pythtb import TBModel, Lattice
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from HamiltonianModel.hamiltonian import set_model
 
-        if eval_total is None:
-            eval_total = np.array(rib_eval)
-        else:
-            eval_total += np.array(rib_eval)
+delta = np.array([0.0, 0.5, 1.0, 1.5, 2.0])
+t = 1.0
+soc_val = 0.25
+rashba =  np.array([0.0, 0.05, 0.1, 0.2 , 0.3])
+W = 0 * soc_val
 
-    rib_eval_avg = eval_total / n_avg
-    nbands = rib_eval_avg.shape[0]
-    ax1 = ax[je]
-    ax1.set_xlim([0, k_node[-1]])
-    ax1.set_xticks(k_node)
-    ax1.set_xticklabels([r'$\Gamma$', r'$K$', r'$M$', r"$K'$", r'$\Gamma$'])
-    ax1.set_ylim(-5, 5)
-    ax1.set_ylabel("Averaged Band Structure (010)")
-    ax1.set_title(f"SOC = {soc_val:.3f}")
-    
-    for i in range(len(k_vec)):
-        ax1.scatter([k_dist[i]] * nbands, rib_eval_avg[:, i], s=2, c='black', alpha=0.5)
+# Matriks Pauli
+sigma_z = np.array([0., 0., 0., 1.])
+sigma_x = np.array([0., 1., 0., 0])
+sigma_y = np.array([0., 0., 1., 0])
+r3h = np.sqrt(3.0) / 2.0
+sigma_a = 0.5 * sigma_x - r3h * sigma_y
+sigma_b = 0.5 * sigma_x + r3h * sigma_y
+sigma_c = -1.0 * sigma_x
+
+
+k_nodes = [[0, 0], [0.5, 0], [0.5, 0.5], [0, 0], [0, 0.5]]
+k_labels = [
+    r"$\bar{\Gamma}$",
+    r"$\bar{X}$",
+    r"$\bar{M}$",
+    r"$\bar{\Gamma}$",
+    r"$\bar{Y}$",
+]
+
+fig, ax = plt.subplots(len(delta), len(rashba), figsize=(12,12))
+ax = np.atleast_2d(ax)
+
+for a,i in enumerate(delta):
+    for b,j in enumerate(rashba):
+
+        my_model = set_model(t, soc_val, j, i, W)
+        fin_model = my_model.make_finite(periodic_dirs=[0], num_cells=[20])
+
+        # buat figure sementara
+        fig_tmp, ax_tmp = fin_model.plot_bands(
+            nk=201,
+            k_nodes=k_nodes,
+            k_node_labels=k_labels,
+            lw=1
+            )
+
+        # ambil axes tunggal
+        if isinstance(ax_tmp, (list, tuple, np.ndarray)):
+            ax_tmp = np.asarray(ax_tmp).ravel()[0]
+
+        # copy semua garis
+        for line in ax_tmp.get_lines():
+            ax[a,b].plot(
+                line.get_xdata(),
+                line.get_ydata(),
+                color=line.get_color(),
+                lw=line.get_linewidth()
+            )
+
+        ax[a,b].set_title(f"Δ={i}, R={j}")
+        ax[a,b].set_xlim(ax_tmp.get_xlim())
+        ax[a,b].set_ylim(ax_tmp.get_ylim())
+
+        plt.close(fig_tmp)   
 
 plt.tight_layout()
-plt.savefig("averaged_band_structure.pdf")
+plt.savefig("result/peta_ribbon.pdf")
 plt.show()
-
 
 \end{lstlisting}
 
+\begin{lstlisting}[language=Python, caption={Konstruksi Peta Probabilitas Elektron Pada Struktur Pita}, label={lst:peta-prob}]
 
-\begin{lstlisting}[language=Python, caption={Kode Diagram Fasa}, label={lst:Kode Diagram Fasa}]
+from pythtb import TBModel, Lattice
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from HamiltonianModel.hamiltonian import set_model as sm
 
+delta = np.array([0.0, 0.5, 1.0, 2.5, 3.0])
+t = 1.0
+soc_val = 0.25
+rashba = np.array([0.0, 0.5, 1.0, 2.5, 3.0])
+
+fig, ax = plt.subplots(5, 5, figsize=(12, 5))
+
+k_nodes = [
+    [0.0, 0.0, 0.0],    # Gamma
+    [2./3., 1./3., 0.0],# K
+    [0.5, 0.5, 0.0],    # M
+    [1./3., 2./3., 0.0],# K'
+    [0.0, 0.0, 0.0],    # Gamma
+]
+label_k = (r"$\Gamma$", r"$K$", r"$M$", r"$K^\prime$", r"$\Gamma$")
+
+for i, d in enumerate(delta):
+    for j, r in enumerate(rashba):
+        my_model = sm(t, soc_val, r, d, 0)
+
+        my_model.plot_bands(
+            k_nodes=k_nodes,
+            nk=201,
+            k_node_labels=label_k,
+            fig=fig,
+            ax=ax[i, j],
+            proj_orb_idx=[0],
+            proj_spin=True,
+            cmap='inferno',
+            cbar=True
+        )
+
+for i in range(5):
+    for j in range(5):
+        ax[i, j].grid(True, alpha=0.3)
+
+        # Hanya baris terakhir yang punya label k
+        if i != 4:
+            ax[i, j].set_xticklabels([])
+            ax[i, j].set_xlabel("")
+        
+        # Hanya kolom pertama yang punya label energi
+        if j != 0:
+            ax[i, j].set_yticklabels([])
+            ax[i, j].set_ylabel("")
+
+        # Judul kecil tiap panel
+        ax[i, j].set_title(
+            rf"$\delta={delta[i]}$, $\lambda_R={rashba[j]}$",
+            fontsize=8
+        )
+
+# Label global
+fig.text(0.5, 0.04, "k-path", ha='center', fontsize=12)
+fig.text(0.04, 0.5, "Energy", va='center', rotation='vertical', fontsize=12)
+
+# Spasi antar subplot (lebih rapi dari tight_layout)
+plt.subplots_adjust(
+    left=0.08,
+    right=0.98,
+    bottom=0.08,
+    top=0.95,
+    wspace=0.25,
+    hspace=0.35
+)
+
+
+plt.tight_layout()
+plt.savefig('result/peta_bulk.pdf', dpi=600)
+plt.show()
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Konstruksi Peta Kerapatan Energi}, label={lst:peta-DOS}]
+
+\end{lstlisting}
+
+\section{Kode Analisis Topologi}
+Berikut adalah kode yang kami gunakan untuk menganalisis sifat topologis grafena dalam pengaruh \textit{stacking layer}:
+
+\begin{lstlisting}[language=Python, caption={Analisis Evolusi \textit{Hybrid Wannier Center}}, label={lst:hwc}]
+
+from pythtb import WFArray, Mesh, Lattice, TBModel
+import numpy as np 
+import matplotlib.pyplot as plt 
+from HamiltonianModel.hamiltonian import set_model as sm 
+
+t = 1.0
+soc = 0.3
+rashba = 0.25
+delta = 1.0 
+
+model = sm(t, soc, rashba, delta, 0)
+
+k_nodes = [
+    [0.0, 0.0, 0.0],    # Gamma
+    [2./3., 1./3., 0.0],# K
+    [0.5, 0.5, 0.0],    # M
+    [1./3., 2./3., 0.0],# K'
+    [0.0, 0.0, 0.0],    # Gamma
+]
+label_k = (r"$\Gamma$", r"$K$", r"$M$", r"$K^\prime$", r"$\Gamma$")
+
+#model.plot_bands(       k_nodes=k_nodes, nk=201, k_node_labels=label_k, proj_orb_idx=[0] )
+
+mesh = Mesh(["k", "k", "k"])
+mesh.build_grid(shape=(41, 41, 41), gamma_centered=True)
+print(mesh)
+
+wf_array = WFArray(model.lattice, mesh, spinful=True)
+wf_array.solve_model(model=model)
+
+wan_cent = wf_array.berry_phase(
+        axis_idx=1, state_idx=[0,1], contin=True, berry_evals=True
+        )
+wan_cent /= 2 * np.pi
+
+nky = wan_cent.shape[0]
+ky = np.linspace(0, 1, nky)
+
+flux = wf_array.berry_flux(plane=(0, 1), state_idx=[0,1], non_abelian=False)
+chern_kz = np.sum(flux, axis=(0,1)) / (2 * np.pi)
+print(chern_kz)
+#print(wan_cent)
+
+for shift in range(-2, 3):
+    plt.plot(ky, wan_cent[:, 0] + float(shift), "k")
+    plt.plot(ky, wan_cent[:, 1] + float(shift), "k")
+
+plt.savefig("result/hwf.pdf")
+plt.show()
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Analisis Plot Fungsi \textit{Axion Angle}}, label={lst:axion}]
+
+from pythtb import TBModel, Lattice
 import matplotlib.pyplot as plt
 import numpy as np
+from HamiltonianModel.hamiltonian import set_model as sm
 
-# Define phase boundary values
-Wc_onsite = 6.0  # threshold for onsite disorder
-Wc_hopping = 5.0  # threshold for hopping disorder
+sigma_z = np.array([0., 0., 0., 1.], dtype=complex)
+sigma_x = np.array([0., 1., 0., 0], dtype=complex)
+sigma_y = np.array([0., 0., 1., 0], dtype=complex)
 
-# Create grid
-x = np.linspace(1, 10, 100)  # Onsite disorder
-y = np.linspace(1, 10, 100)  # Hopping disorder
-X, Y = np.meshgrid(x, y)
+r3h = np.sqrt(3.0) / 2.0
+sigma_a = 0.5 * sigma_x - r3h * sigma_y
+sigma_b = 0.5 * sigma_x + r3h * sigma_y
+sigma_c = -1.0 * sigma_x
 
-# Define trivial phase condition: either x > Wc_onsite or y > Wc_hopping
-Z = np.zeros_like(X)
-Z[(X > Wc_onsite) | (Y > Wc_hopping)] = 1  # Anderson Insulators
-Z[(X <= Wc_onsite) & (Y <= Wc_hopping)] = 0  # Topological phase
+lat = [[1, 0, 0], [0.5, np.sqrt(3.0)/2.0, 0.0], [0.0, 0.0, 1.0]]
+orb = [[1./3., 1./3., 0.0], [2./3., 2./3., 0.0]]
+lattice = Lattice(lat_vecs=lat, orb_vecs=orb, periodic_dirs=...)
 
-# Plot the phase diagram
-fig, ax = plt.subplots(figsize=(6, 5))
-c = ax.contourf(X, Y, Z, levels=[-0.1, 0.5, 1.1], colors=['red', 'black'], alpha=0.8)
-ax.contour(X, Y, Z, levels=[0.5], colors='k', linewidths=1)
+model = TBModel(lattice=lattice, spinful=True)
 
-# Annotations and labels
-ax.set_xlabel("Onsite Disorder W (x)")
-ax.set_ylabel("Hopping Disorder W (y)")
-ax.set_title("Phase Diagram: Topological vs Anderson Insulators")
+t = 1.0
+soc = 1/4
+m = 0.5
+rashba = 0.05
 
-# Color legend
-from matplotlib.patches import Patch
-legend_elements = [Patch(facecolor='red', label='Topological Phase'),
-                   Patch(facecolor='black', label='Anderson Insulator Phase')]
-ax.legend(handles=legend_elements, loc='upper left')
+model.set_onsite(
+        lambda beta: [0, m * np.sin(beta), m * np.sin(beta), m * np.sin(beta)], ind_i=0,
+        )
+model.set_onsite(
+        lambda beta: [0, -m * np.sin(beta), -m * np.sin(beta), -m * np.sin(beta)], ind_i=1,
+        )
 
-plt.tight_layout()
+for lvec in ([-1, 0, 0], [0, -1, 0], [0, 0, -1]):
+    model.set_hop(t, 0, 1, lvec)
+
+model.set_hop(lambda beta: 3 * t + m * np.cos(beta), 0, 1, [0, 0, 0], mode="set")
+
+lvec_list = ([1, 0, 0], [0, 1, 0], [0, 0, 1], [-1, 1, 0], [0, -1, 1], [1, 0, -1])
+dir_list = ([0, 1, -1], [-1, 0, 1], [1, -1, 0], [1, 1, 0], [0, 1, 1], [1, 0, 1])
+
+for j in range(6):
+    spin = np.array([0.0] + dir_list[j])
+    model.set_hop(1j * soc * spin, 0, 0, lvec_list[j])
+    model.set_hop(-1j * soc * spin, 1, 1, lvec_list[j])
+
+model.set_hop(1.j * rashba * spin, 0, 1, [0, 0, 0], mode="add")
+model.set_hop(1.j * rashba * spin, 0, 1, [-1, 0, 0], mode="add")
+model.set_hop(1.j * rashba * spin, 0, 1, [0, -1, 0], mode="add")
+
+print(model)
+
+nks = 30, 30, 30
+n_beta = 21
+betas = np.linspace(0, 2 * np.pi, n_beta, endpoint=True)
+param_periods = {"beta": 2 * np.pi}
+
+print(f"Total number of points: {nks[0] * nks[1] * nks[2] * n_beta}")
+
+betas, axion, c2 = model.axion_angle(
+    nks=nks,
+    param_periods=param_periods,
+    return_second_chern=True,
+    use_tensorflow=True,
+    diff_scheme="central",
+    diff_order=8,
+    beta=betas,
+)
+
+print(f"Second Chern number C2 = {c2}")
+
+fig, ax = plt.subplots()
+
+ax.set_xlabel(r"$\beta$", size=15)
+ax.set_ylabel(r"$\theta$", size=15)
+
+tick_positions = np.arange(0, 2 * np.pi + np.pi / 4, np.pi / 4)
+tick_labels = [
+    r"$0$",
+    r"$\frac{\pi}{4}$",
+    r"$\frac{\pi}{2}$",
+    r"$\frac{3\pi}{4}$",
+    r"$\pi$",
+    r"$\frac{5\pi}{4}$",
+    r"$\frac{6\pi}{4}$",
+    r"$\frac{7\pi}{4}$",
+    r"$2\pi$",
+]
+
+# Set the ticks and labels for both axes
+ax.set_xticks(tick_positions)
+ax.set_xticklabels(tick_labels)
+ax.set_yticks(tick_positions)
+ax.set_yticklabels(tick_labels)
+
+## Riemann sum
+ax.plot(betas, axion, lw=1, zorder=2, c="k")
+ax.scatter(betas, axion, s=6, zorder=2, c="r")
+
+ax.grid()
+ax.set_title("Axion angle vs adiabatic parameter", size=12)
+plt.savefig("result/axion_angle.pdf")
 plt.show()
 
-
 \end{lstlisting}
-
-\lstset{
-  basicstyle=\ttfamily\small,
-  backgroundcolor=\color{gray!10},
-  frame=single,
-  caption={Data DOS at E=0 terhadap kekuatan disorder (W/soc)},
-  label={lst:data-dos},
-}
-
-\begin{lstlisting}
-W/soc,DOS at E=0
-0.0,0.0
-1.1111111111111112,0.0
-2.2222222222222223,0.0
-3.3333333333333335,0.0005538366336633659
-4.444444444444445,0.0019863861386138597
-5.555555555555555,0.00779702970297029
-6.666666666666667,0.017558787128712856
-7.777777777777779,0.023363242574257405
-8.88888888888889,0.03208796943121178
-10.0,0.03748905795087555
-\end{lstlisting}
-
-
