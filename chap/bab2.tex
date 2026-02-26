@@ -2,6 +2,7 @@
 \RaggedRight\section{Model Fisik Sistem}
 
 \subsection{Tight Binding Model Grafena}
+\label{subsec:tight-binding}
 \justifying
 
 Penelitian ini menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \texttt{PhysRevB.91.085106} dan \parencite {PhysRevLett.95.226801}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
@@ -83,7 +84,7 @@ Seperti yang ditunjukkan pada gambar \ref{fig:vis_stack}, \textit{stacking} dila
 
 \section{Formulasi dan Validasi Numerik}
 \subsection{Diskretisasi Ruang}
-Dalam mekanika kuantum partikel diperlakukan sebagai variabel kontinyu, yang diatur oleh fungsi gelombang $\psi(x)$. Namun dalam kasus seperti material grafena, dimana basis orbital setiap atom terlokalisasi, ruang posisi dapat kita diskretisasi. Sehingga hamiltonian dari sistem juga dapat kita modelkan dalam bentuk matrix tridiagonal.
+Dalam mekanika kuantum partikel diperlakukan sebagai variabel kontinyu, yang diatur oleh fungsi gelombang $\psi(x)$. Namun dalam kasus seperti material grafena, dimana basis orbital setiap atom terlokalisasi, ruang posisi dapat kita diskretisasi. Sehingga hamiltonian dari sistem juga dapat kita modelkan dalam bentuk matrix tridiagonal \parencite{GROSSO20141}.
 \[
 H =
 \begin{pmatrix}
@@ -97,15 +98,72 @@ H =
 
 \par
 Dengan model hamiltonian ini kita akan dengan mudah memperoleh nilai energi dan fungsi gelombang dari sistem, dengan memasukkan model ini kedalam komputer dan mendiagonalisasi hamiltonian dengan $H_n\psi_n(r)=E_n\psi(r)$.
-
+\subsection{Representasi Bloch}
+Mengikuti formulasi yang dijabarkan oleh \parencite{Yusufaly2013} \parencite{Cole_Python_Tight_Binding_2025},
+\par 
+Vektor dalam kisi didefinisikan sebagai
+\[
+ R = n_1 a_1 + n_2 a_2 + n_3 a_3 
+\]
+dengan melakukan transformasi kedalam ruang reciprocal, kita peroleh vektor
+\[
+\begin{align}
+G = m_1 b_1 + m_2 b_2 + m_3 b_3 \\
+a_i \cdot b_j = 2 \pi \delta_{ij} \\
+e^{i G \cdot R} = 1
+\end{align}
+\]
+\par
+Misalkan $\mu$ adalah label, sehingga $t_\mu$ adalah lokasi dari atom pada unit kisi. Untuk basis sistem Tight-Binding, seperti yang disinggung pada \ref{subsec:tight-binding}, dapat dituliskan sebagai $\zeta_{\mu\alpha}(r-R-t_mu)$. Dengan memperkanalkan index $j=\mu\alpha$
+\[
+\phi_{R_j} (r) = \phi_j (r - R) = \zeta_{\mu \alpha}(r - R - t_{\mu})
+\]
+\[
+\langle \phi_{R_j}| \phi_{R_j} \rangle = \delta_{RR'}\delta_{ij}
+\]
+dan hamiltonian
+\[
+H_{ij}(R) = \langle \phi_{R'_i}|H| \phi_{R' + R_j} \rangle = \langle \phi_{0_i}|H| \phi_{R_j} \rangle 
+\]
+\par 
+Untuk konvensi Bloch, paket PythTb \parencite{Cole_Python_Tight_Binding_2025} \parencite{Coh2022} menggunakan dua konvensi Bloch. Namun dalam kasus topologi yang memerlukan informasi probabilitas elektron pada setiap unit cell, kita akan terfokus pada konvensi dengan penambahan fase extra.
+\par
+Dengan mengkonstruksi fungsi \textit{Bloch-like}
+\[
+\begin{align}
+\mathcal{X}^k_j(r) = \sum_R e^{i k \cdot (R + t_j)} \phi_j(r - R) \\
+|\mathcal{X}^k_j \rangle = \sum_R e^{i k \cdot (R + t_j)} |\phi_{R_j}\rangle \\
+\langle \mathcal{X}|\mathcal{X'} \rangle = \int_{cell} d^3 r \mathcal{X}'(r) \\
+\langle\mathcal{X}^k_j |\mathcal{X}^k_j \rangle = \delta_{ij}
+\end{align}
+\]
+yang kemudian di ekspansikan sepanjang nilai $j$ untuk memperoleh fungsi Bloch
+\[
+|\psi_{nk} \rangle = \sum_j \mathcal{C}_j^{nk} |\mathcal{X}_j^k \rangle
+\]
+Matriks Hamiltonian kemudian dapat diperoleh sebagai
+\[
+H_{ij}^k = \langle \mathcal{X}|H |\mathcal{X'} \rangle = \sum_R e^{i k \cdot (R + t_j -t_i)}H_{ij}(R)
+\]
+dimana solusi dari persamaan secular dapat diselesaikan secara langsung lewat Diagonalisasi untuk memperoleh nilai dan fungsi eigen 
+\[ 
+\mathcal{H}_k \cdot \mathcal{C}_{nk} = E_{nk}\mathcal{C}_{nk}
+\]
+Karena penelitian ini mengkaji model dengan pertimbangan parameter spin, paket yang dikembangkan oleh \parencite{Cole_Python_Tight_Binding_2025} juga menyediakan solusi diagonalisasi dengan formulasi matematis
+\[ 
+\begin{align}
+n_{i, ss'} = \frac{1}{N} \sum_{nk}^{occ}(\mathcal{C}^{nk}_{is})^* \mathcal{C}^{nk}_{is'} \\
+H_{ij, ss'} = \sum_a h_{ij,a} \sigma_{a, ss'}
+\end{align}
+\]
 \subsection{Validasi Efek Tepi}
 
-Setelah memperoleh spektrum energi dari diagonalisasi hamiltonian pada ruang diskrit, kita akan memperoleh spektrum energi dari sistem yang periodik, dimana elektron memiliki potensi untuk menjelajah seluruh titik kisi dengan probabilitas universal. Namun dalam kasus konduktansi tepi, elektron tidak menjelajah seluruh titik kisi, melainkan termodulasi ketepian. Maka untuk memvalidasi model dan prosedur numerik, kita perlu menghitung spektrum energi sistem yang terbatas(tidak periodik). Hal ini dilakukan dengan \textit{slab geometry}, dimana ruang tiga dimensi direduksi menjadi dimensi yang lebih rendah.
+Setelah memperoleh spektrum energi dari diagonalisasi hamiltonian pada ruang diskrit, kita akan memperoleh spektrum energi dari sistem yang periodik, dimana elektron memiliki potensi untuk menjelajah seluruh titik kisi dengan probabilitas universal. Namun dalam kasus konduktansi tepi, elektron tidak menjelajah seluruh titik kisi, melainkan termodulasi ketepian. Maka untuk memvalidasi model dan prosedur numerik, kita perlu menghitung spektrum energi sistem yang terbatas(tidak periodik). Hal ini dilakukan dengan \textit{slab geometry}, dimana ruang tiga dimensi direduksi menjadi dimensi yang lebih rendah \parencite{Cole_Python_Tight_Binding_2025}.
 \par
-Untuk keperluan validasi, penelitian ini menggunakan arah (100), dimana arah y dan z tetap periodik sedangkan arah x terbatas. Secara konsep, seharusnya struktur pita akan menunjukkan terciptanya celah pita pada energi fermi akibat terlokalisasinya elektron di \textit{bulk}, namun akan ada dua pita yang berbelok dari valensi ke pita konduktif, \textit{vice verca}.
+Untuk keperluan validasi, penelitian ini menggunakan arah (100), dimana arah y dan z tetap periodik sedangkan arah x terbatas. Secara konsep, seharusnya struktur pita akan menunjukkan terciptanya celah pita pada energi fermi akibat terlokalisasinya elektron di \textit{bulk}, namun akan ada dua pita yang berbelok dari valensi ke pita konduktif, \textit{vice verca} \parencite{PhysRevB.91.085106} .
 
 \par
-Pada penelitian ini, efek dari \textit{Periodic Boundary Condition} dan \textit{Open Boundary Condition} juga diuji, untuk melihat bagaimana distribusi energi yang diperbolehkan pada sistem ketika diterapkan batas pada material dan bagaimana respon sistem ketika diberi kondisi periodik.
+Pada penelitian ini, efek dari \textit{Periodic Boundary Condition} dan \textit{Open Boundary Condition} juga diuji, untuk melihat bagaimana distribusi energi yang diperbolehkan pada sistem ketika diterapkan batas pada material dan bagaimana respon sistem ketika diberi kondisi periodik \parencite{Cole_Python_Tight_Binding_2025} .
 
 
 \section{Metode Analisis Spektrum}
@@ -130,7 +188,7 @@ Untuk menentukan kriteria dari \textit{edge state} kita hanya perlu melihat penc
 \subsection{Peta Kerapatan Energi}
 Pita energi hanya memberikan kita gambaran visual dari perilaku sistem, maka untuk memvalidasi keberadaan keadaan tepi(\textit{edge state}) kita perlu memperoleh nilai kuantitatif dari energi pada celah pita. Penelitian ini memanfaatkan ekstraksi kerapatan keadaan untuk mendeteksi keberadaan \textit{edge state} pada energi fermi. Lebih dari itu, tidak seperti pita energi yang memaksa kita mereduksi dimensi untuk keperluan visualisasi, kerapatan keadaan mengizinkan kita untuk memotong seluruh sumbu(111).
 \par
-Rapat keadaan dalam mekanika kuantum dimodelkan sebagai;
+Rapat keadaan dalam mekanika kuantum dimodelkan sebagai \parencite{GROSSO20141} ;
 \[
   D(E) = \sum_n \delta (E - E_n)
 \]
