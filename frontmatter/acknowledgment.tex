@@ -379,6 +379,40 @@ d^3k \,
 }
 \end{align}
 
+\section{Konstruksi Matriks Wilson Loop}
+Derivasi ini berdasarkan formulasi \parencite{PhysRevB.84.075119} dan \parencite{Yusufaly2013}
+
+Operator posisi untuk sistem satu dimensi
+\begin{align}
+  \hat{X} = \sum_{i\alpha} e^{i\delta k_x \cdot \mathbf{R}_i} |\phi_\alpha(\mathbf{r - R_i}) \rangle \langle \phi_\alpha(\mathbf{r - R_i})|
+\end{align}
+kemudian aplikasikan projeksi
+\begin{align}
+\hat{X}_P &= \hat{P}\hat{X}\hat{P} \\
+&= \sum_{nm \in o} \sum_{k_x k'_x, i\alpha} e^{i \delta k_x \cdot \mathbf{R}_i} |\psi_{nk_x k_y}\rangle \langle \psi_{nk_x k_y}| \\
+&\quad \times |\phi_\alpha(\mathbf{r} - \mathbf{R}_i)\rangle \langle \phi_\alpha(\mathbf{r} - \mathbf{R}_i) | \psi_{mk'_x k_y} \rangle \langle \psi_{mk'_x k_y}| \\
+&= \sum_{nm \in o} \sum_{k_x k'_x, i} e^{i(k_x + \delta k_x - k'_x) \cdot \mathbf{R}_i} |\psi_{nk_x k_y}\rangle \langle \psi_{mk'_x k_y}| \\
+&\quad \times \left[ \sum_\alpha u^*_{n\alpha}(k_x) u_{m\alpha}(k'_x) \right] \\
+&= \sum_{k_x k'_x} \delta(k_x + \delta k_x - k'_x) \sum_{nm \in o} |\psi_{nk_x k_y}\rangle \langle \psi_{mk'_x k_y}| \\
+&\quad \times \left[ \sum_\alpha u^*_{n\alpha}(k_x) u_{m\alpha}(k'_x) \right]
+\end{align}
+misalkan $F_{i,i+1}^{nm}(k_y) = \sum_\alpha u^*_{na}(k_{x,i},k_y)u_{nm\alpha}(k_{x,i+1, k_y})$ maka bentuk matriks dari projeksi operator Posisi
+\begin{align}
+  \hat{X}_P(k_y) = \begin{pmatrix}
+0 & F_{0,1} & 0 & 0 & 0 & 0 \\
+0 & 0 & F_{1,2} & 0 & 0 & 0 \\
+0 & 0 & 0 & F_{2,3} & 0 & 0 \\
+0 & 0 & 0 & 0 & \dots & 0 \\
+0 & 0 & 0 & 0 & 0 & F_{N_x-2, N_x-1} \\
+F_{N_x-1, 0} & 0 & 0 & 0 & 0 & 0
+\end{pmatrix}
+\end{align}
+
+Produk dari $F_{i, i+1}$ dapat disusun sebgai \textit{Wilson Loop}
+\begin{align}
+	D(k_y) = F_{0,1}F_{1,2}F_{2,3} \cdot \cdot \cdot F_{N_x - 2, N_x -1}F_{N_x -1,0}
+\end{align}
+
 \chapter{Lampiran Kode Program}
 \label{app:kode-program}
 \section{Kode Utama Simulasi(Model Kane-Mele 3D)}
