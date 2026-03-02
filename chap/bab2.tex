@@ -4,6 +4,12 @@
 \subsection{Tight Binding Model Grafena}
 \label{subsec:tight-binding}
 \justifying
+\begin{figure}[h]
+  \centering 
+  \includegraphics[width=1.0\linewidth]{picture/graphene.png}
+  \caption{Visualisasi struktur kristal grafena. Setiap titik mewakili posisi atom karbon, dengan warna merah dan hijau menunjukkan dua sublattice yang berbeda.}
+  \label{fig:vis_graphene}
+\end{figure}
 
 Penelitian ini menggunakan pendekatan Tight Binding Model untuk merepresentasikan hamiltonian penuh dari material. Model ini dipilih, selain karena digunakan dalam rujukan inti \texttt{PhysRevB.91.085106} dan \parencite {PhysRevLett.95.226801}, namun juga karena sifat elektronik grafena yang hanya dipengaruhi oleh orbital $P_z$, sehingga material tersebut sangat efektif dibawah kedalam bentuk Tight Binding untuk mempermudah penyelesaian persamaan schrodinger.
 
@@ -197,6 +203,13 @@ Karena komputer tidak bisa membaca fungsi delta, maka penilitian ini menggunakan
 \section{Metode Analisis Topologi}
 \subsection{\textit{Hybrid Wannier Function}}
 \label{subsec:HWF}
+\begin{figure}[h]
+  \centering 
+  \includegraphics[width=1.0\linewidth]{picture/Z2_Winding.png}
+  \caption{Perbedaan pola \textit{winding} dari fase (A) \textit{Quantum Spin Hall} dan (B) Insulator \citep{PhysRevB.84.075119}}
+\label{fig:Z2_winding}
+\end{figure}
+
 Penggunaan Hybrid Wannier Centers (HWC) dalam model stacking layer ini bertujuan untuk memetakan perubahan sifat topologi sistem saat dimensi material diperluas. Dengan mengamati pola winding pada spektrum Wilson Loop, perubahan fase topologis yang dipicu oleh interaksi antar-lapisan dapat diidentifikasi secara visual melalui transisi antara pola partner-switching (topologis) dan pola berpasangan (trivial), mengikuti prosedur \parencite{Cole_Python_Tight_Binding_2025}.
 \par
 Kane dan Mele \parencite{PhysRevLett.95.146802} menjelaskan bahwasanya invariant yang menjelaskan sifat topologi dari sistem \textit{Quantum Spin Hall} dapat ditentukan dari ganjil genap dari fluks, sehingga terdapat dua mode dari sistem ini; fase odd(Topologi, $Z_2=1$) dan fase even(Trivial Insulator, $Z_2=0$). Untuk memperoleh nilai dari $Z_2$, membagi ruang momentum menjadi dua sub-ruang; ruang titik TRIM(\textit{Time Reversal Symmetry}) dan sub-ruang dimana tumpang tindih antar matrix bersifat anti-unitarian($\Theta$). Untuk matrix anti-simetrik $2 \times 2$, seluruh informasi dapat diperoleh dari Pfaffian;
@@ -262,7 +275,7 @@ Matriks Wilson Loop ini memiliki nilai eigen berbentuk $\lambda_m = e^{i\theta_m
 \bar{x}_m(k_\perp) = \frac{\theta_m(k_\perp)}{2\pi} a_x
 \]
 
-Dengan demikian, prosedur Soluyanov-Vanderbilt untuk menentukan invarian $Z_2$ dilakukan dengan memplot evolusi fase $\theta_m$ terhadap momentum tegak lurusnya ($k_\perp$). Dalam fase topologis ($Z_2=1$), spektrum fase ini akan menunjukkan fenomena \textit{partner switching}, di mana jalur-jalur pusat muatan Wannier saling bertukar pasangan Kramers. Secara praktis, algoritma ini memastikan bahwa perhitungan tetap \textit{gauge-invariant}, sehingga sifat topologi material dapat diidentifikasi secara stabil tanpa memerlukan syarat \textit{gauge-fixing} yang rumit.
+Dengan demikian, prosedur Soluyanov-Vanderbilt untuk menentukan invarian $Z_2$ dilakukan dengan memplot evolusi fase $\theta_m$ terhadap momentum tegak lurusnya ($k_\perp$). Dalam fase topologis ($Z_2=1$), spektrum fase ini akan menunjukkan fenomena \textit{partner switching}, di mana jalur-jalur pusat muatan Wannier saling bertukar pasangan Kramers \ref{fig:Z2_winding}. Secara praktis, algoritma ini memastikan bahwa perhitungan tetap \textit{gauge-invariant}, sehingga sifat topologi material dapat diidentifikasi secara stabil tanpa memerlukan syarat \textit{gauge-fixing} yang rumit.
 
 \subsection{\textit{Axion Angle}}
 Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudoscalar magnetoelectric phase coupling} $\theta$ \parencite{PhysRevLett.102.146805}. Perhitungan $\theta$ adalah cara sederhana untuk meninjau adanya \textit{surface hall conductivity} pada material \parencite{PhysRevLett.58.1799}.
