@@ -6,8 +6,8 @@
 \justifying
 \begin{figure}[h]
   \centering 
-  \includegraphics[width=1.0\linewidth]{picture/graphene.png}
-  \caption{Visualisasi struktur kristal grafena. Setiap titik mewakili posisi atom karbon, dengan warna merah dan hijau menunjukkan dua sublattice yang berbeda.}
+  \includegraphics[width=0.7\linewidth]{picture/graphene.png}
+  \caption{Visualisasi struktur kristal grafena. Setiap titik mewakili posisi atom karbon.}
   \label{fig:vis_graphene}
 \end{figure}
 
@@ -278,16 +278,51 @@ Matriks Wilson Loop ini memiliki nilai eigen berbentuk $\lambda_m = e^{i\theta_m
 Dengan demikian, prosedur Soluyanov-Vanderbilt untuk menentukan invarian $Z_2$ dilakukan dengan memplot evolusi fase $\theta_m$ terhadap momentum tegak lurusnya ($k_\perp$). Dalam fase topologis ($Z_2=1$), spektrum fase ini akan menunjukkan fenomena \textit{partner switching}, di mana jalur-jalur pusat muatan Wannier saling bertukar pasangan Kramers \ref{fig:Z2_winding}. Secara praktis, algoritma ini memastikan bahwa perhitungan tetap \textit{gauge-invariant}, sehingga sifat topologi material dapat diidentifikasi secara stabil tanpa memerlukan syarat \textit{gauge-fixing} yang rumit.
 
 \subsection{\textit{Axion Angle}}
-Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudoscalar magnetoelectric phase coupling} $\theta$ \parencite{PhysRevLett.102.146805}. Perhitungan $\theta$ adalah cara sederhana untuk meninjau adanya \textit{surface hall conductivity} pada material \parencite{PhysRevLett.58.1799}.
+Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudoscalar magnetoelectric phase coupling} $\theta$ \parencite{PhysRevLett.102.146805}. Parameter $\theta$ berawal dari upaya konstruksi bentuk \textit{covariant} dari teori medan elektromagnetik \parencite{TH O'Dell}, dimana bentuk Lagrangian Maxwell dituliskan sebagai.
 \[
-  \delta \mathcal{L}_{EM} = \frac{\theta e^2}{2\pi h}\text{\textbf{E . B}}
+\Delta \mathcal{L}=\kappa a \mathbf{E \cdot B}
 \]
- Dengan itu \parencite{PhysRevB.78.195424} medefinisikan $\theta$ sebagai integrasi elektron dalam dimensi yang satu kali lebih tinggi, dengan koneksi Berry $\mathcal{A}^{\mu\nu}_j = i \langle u_{\mu} | \partial_j | u_{\nu} \rangle$, diperoleh
+namun dalam upaya perhitungan numerik, \parencite{TH O'Dell} menunjukkan bahwa bentuk ini perlu didefinisikan ulang sebagai
+\[
+\begin{align}
+\Delta \mathcal{L} = (\theta e^2 / 4 \pi^2)trF_{\mu \nu}\tilde{F}_{\mu \nu} \\
+= (\theta e^2 / 2 \pi^2)(\mathbf{E \cdot B} + \dots)
+\end{align}
+\]
+\par 
+Dengan meninjau hubungan tensor polarisasi dan magnetisasi dan hubungannya dengan tensor medan elektromagnetk, polarisabilitas magnetoelectric akhirnya dapat dirumuskan sebagi\parencite{PhysRevLett.58.1799}.
+\[
+\alpha_{ij} = \frac{\partial M_{j}}{\partial E_{i}}|_{\mathbf{B}=0} = \frac{\partial P_{i}}{\partial B_{j}}|_{\mathbf{E}=0 }
+\]
+dimana tensor medan elektromagnetk dan polarisasi magnetisasi dapat dituliskan sebagai
+\[
+F_{\mu \nu} = \begin{pmatrix}
+0 & -E_{x} & -E_{y} & -E_{z} \\ 
+E_{x} & 0 & -cB_{z} & cB_{y} \\
+E_{y} & cB_{z} & 0 & -cB_{x} \\
+E_{z} & -cB_{y} & cB_{x} & 0 \\
+\end{pmatrix} \qquad
+M_{\alpha \beta} = 
+\begin{pmatrix}
+0 & cP_{x} & cP_{y} & cP_{z} \\ 
+-cP_{x} & 0 & -M_{z} & M_{y} \\
+-cP_{y} & M_{z} & 0 & -M_{x} \\
+cP_{z} & -M_{y} & M_{x} & 0 \\
+\end{pmatrix}
+\]
+dari fakta bahwa tensor polarisabilitas ini terdiri dari komponen diagonal dan non-diagonal, maka $\alpha_{ij}$ dapat dibagi menjadi dua bagian; bagian diagonal yang disebut \textit{axion coupling} $\alpha^{\text{axion}}$ dan bagian non-diagonal yang disebut \textit{traceless coupling} $\alpha^{\text{traceless}}$ \parencite{PhysRevLett.102.146805}.
+\[
+\alpha_{ij} = \tilde{\alpha}_{ij} + \frac{\theta e^2}{2 \pi h}\delta_{ij}
+\]
+\par
+Fitur esensial dari $\theta$ adalah bahwa nilai konstan menunjukkan bahwa $\theta$ tidak mempengaruhi persamaan Maxwell, namun perubahan nilai $\theta$ akan mempengaruhi persamaan Maxwell. Fitur inilah kemudian yang akan kita memanfaatkan untuk mendeteksi perubahan sifat topologi pada sistem. ketika kita melakukan perubahan perlahan pada parameter sistem, kita akan melihat bagaimana perubahan nilai $\theta$ mempengaruhi sifat magnetoelectric sistem, yang mana perubahan ini akan menunjukkan perubahan sifat topologi pada sistem.
+\par
+Dengan itu \parencite{PhysRevB.78.195424} medefinisikan $\theta$ sebagai integrasi elektron dalam dimensi yang satu kali lebih tinggi, dengan koneksi Berry $\mathcal{A}^{\mu\nu}_j = i \langle u_{\mu} | \partial_j | u_{\nu} \rangle$, diperoleh
 \[
   \theta = \frac{1}{2\pi} \int_{BZ} d^3 k \epsilon_{ijk} \text{Tr}[\mathcal{A}_i \partial_j \mathcal{A}_k - i \frac{2}{3}\mathcal{A}_i\mathcal{A}_j\mathcal{A}_k]
 \]
 
-\parencite{PhysRevB.78.195424} menunjukkan bahwa sistem topologis yang invarian terhadap pembalikan waktu berada pada dimensi 4 + 1 yang diklasifikasikan dengan \textit{second chern number}. Dengan itu $\theta(\beta)$ dihitung untuk ekspresi \textit{second chern number} menggunakan \textit{Four Curvature Formulation}
+Untuk membawa persamaan ini ke dalam perhitungan numerik, \parencite{PhysRevLett.102.146805} mempertimbangkan masalah \textit{gauge-fixing} yang dapat mempengaruhi akurasi perhitungan, seperti yang disingguns pada \ref{subsec:HWF}. Untuk itu dengan melakukan modifikasi yang meninjau polarisasi pada penelitian \parencite{Vanderbilt2018}, \parencite{PhysRevLett.102.146805} melakukan prosedur transisi dengan memvariasikan parameter magnetik $\beta$ secara perlahan, sehingga $\theta$ dapat dihitung sebagai integrasi terhadap $\beta$. $\theta(\beta)$ dihitung untuk ekspresi \textit{second chern number} menggunakan \textit{Four Curvature Formulation}
 \[
   \theta = \frac{1}{16\pi} \int_{0}^{\beta} d\beta' \int d^3k \epsilon_{ijkl} \text{Tr}[\mathcal{F}_{ij}(\mathbf{k}, \beta')\mathcal{F}_{kl}(\mathbf{k}, \beta')]
 
@@ -466,3 +501,5 @@ Penelitian ini mengadapsi empat fungsionalitas dari paket PythTB; Konstruksi mod
 \caption{Skema komputasi numerik menggunakan paket PythTB untuk ekstraksi properti topologi.}
 \label{fig:alur_numerik}
 \end{figure}
+
+
