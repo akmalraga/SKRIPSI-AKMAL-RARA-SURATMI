@@ -2,3 +2,18 @@
 \newcommand{\dif}{\mathrm{d}}
 \newcommand{\unit}[1]{\;\mathrm{#1}}
 \newtheorem{theorem}{Theorem}[chapter]
+
+% Math newcommands
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\braket}[2]{\langle #1|#2\rangle}
+\newcommand{\curl}[1]{\nabla \times #1}
+\newcommand{\divergence}[1]{\nabla \cdot #1}
+
+% Schrodinger equation
+\newcommand{\schrodinger}{-\left(\frac{\hbar^2}{2m}\nabla^2 + V \right) \psi = E \psi}
+% Maxwell's equations
+\newcommand{\maxwellfirst}{\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}}
+\newcommand{\maxwellsecond}{\nabla \cdot \mathbf{B} = 0}
+\newcommand{\maxwellthird}{\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}}
+\newcommand{\maxwellforth}{\nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}} 

@@ -19,6 +19,12 @@ Beberapa tahun setelah Kane dan Mele memperkenalkan $Z2$ invariant yang menunjuk
 \section{Landasan Teori}
 \subsection{Sifat Elektronik Material}
 \justifying 
+\begin{figure}[h]
+  \centering 
+\includegraphics[width=0.7\linewidth]{picture/band-gap.png}
+\caption{Struktur pita energi pada material isolator, semikonduktor, dan konduktor.}
+  \label{fig:band-gap}
+\end{figure}
 
 Sifat elektronik material masih terhalang kabut yang tebal sebelum mekanika kuantum datang. Sebelumnya, sifat elektronik dari suatu material masih ditentukan oleh atom penyusun material tersebut. Paul Drude(1900) menjelaskan fenomena kelistrikan material dengan menganggap elektron sebagai gas gas ideal klasik, teori ini sayangnya gagal menjelaskan kapasitas panas elektronik \parencite{kittel1955solid}.
 
@@ -35,6 +41,12 @@ Dalam menyelesaikan persamaan schrodinger, Bloch menggunakan fungsi gelombang pe
 Interaksi antara gelombang elektron inilah yang akhirnya melahirkan celah pita energi. Klasifikasi material lahir dari informasi ini; isolator adalah material celah pita cukup besar antara pita valensi dan pita konduksi sehingga elektron tidak mampu berpindah bebas antara kisi, sedangkan konduktor adalah material dengan pita yang terisi setengah, sehingga elektron bebas bergerak di dalam material bahkan dengan energi tambahan yang kecil. Dari teori celah pita ini juga lahir semikonduktor, sebuah material dengan celah pita kecil sehingga elektron masih mampu melompat ke kisi tetangga.
 
 \subsection{Efek Tepi dan Kuantisasi Konduktansi Tepi}
+\begin{figure}[h]
+  \centering 
+  \includegraphics[width=0.5\linewidth]{picture/qhall-effect.png}
+  \caption{Fenomena konduktansi tepi pada efek hall kuantum.}
+  \label{fig:qhall-effect}
+\end{figure}
 Ide dari konduktansi tepi telah lahir jauh sebelum material topologis datang. Pada fisika klasik, ketika sebuah medan listrik $E$ mengalir lurus kedalam sebuah pelat metal tipis sedemikan hingga elektron hanya mampu bergerak bebas dalam bidang dua dimensi. Kemudian sebuah medan magnet diaplikasikan tegak lurus terhadap pelat metal, gaya Lorentz akan memodulasi elektron menuju ketepian pelat\parencite{kittel1955solid}.
 \[
   \begin{align}
@@ -63,6 +75,13 @@ Bilangan kuantum topologi yang mengikat pita-pita ini dapat dimengerti lewat for
   n_m = \frac{1}{2\pi} \int d^2 \mathbf{k} \mathcal{F}
 _m\]
 \subsection{Model Haldane}
+\begin{figure}[h]
+  \centering 
+  \includegraphics[width=0.5\linewidth]{picture/haldane_hoppings.pdf}
+  \caption{Model Haldane dengan hopping yang menunjukkan fenomena topologi.}
+  \label{fig:haldane_hoppings}
+\end{figure}
+
 Salah satu contoh material yang secara struktur mengizinkan fenomena topologis seperti yang dijelaskan pada bagian \ref{subsec:TKKN} datang dari material dua dimensi Grafena \parencite{CastroNeto2009}\parencite{Novoselov2005}. Material ini sangat menarik dari segi sifat elektronik dimana sturuktur pitanya menunjukkan apa yang disebut \textit{Dirac Cone} pada sudut Brilioun Zone. Hal ini menyebabkan elektron bergerak mendekati kecepatan cahaya ketika melewati grafena. Fenomena ini juga makin jelas apabila melihat hamiltonian material ini, sebuah hamiltonian dengan susunan menyurupai hamiltonian relativistik Dirac tanpa massa; $\mathcal{H}(\mathbf{q} = \hbar v_F \mathbf{q} . \bar{\sigma})$
 \par 
 
@@ -75,6 +94,13 @@ Ketika prosedur perusakan simetri inversi di atas menghasilkan celah energi, yan
 Hasil yang diperoleh oleh Haldane dapat dikaitkan dengan perolehan bilangan kuantum yang didiskusikan pada \ref{subsec:TKKN}. Seperti yang ditunjukkan oleh \parencite{10.1098/rspa.1984.0023}, Fase periodik menyebabkan terpelintirnya fungsi Bloch dalam ruang reciprocal. Pelintiran fungsi oleh Fase Berry inilah yang bertanggung jawab sebagai medan magnet imajintif pada ruang momentum, memodulasi elektron menuju ketepian kristal.
 
 \subsection{Model Kane dan Mele}
+\begin{figure}[h]
+  \centering 
+  \includegraphics[width=0.7\linewidth]{picture/qsh_hallbar.png}
+  \caption{Aplikasi model kane mele untuk pemisahan spin up dan down untuk transistor spintronik.}
+  \label{fig:qsh-hallbar}
+\end{figure}
+
 Didasari oleh keberhasilan ekstraksi material dua dimensi grafena oleh \parencite{Novoselov2005} dan eksotisme model \parencite{PhysRevLett.61.2015}, Kane dan Mele dalam dua papernya \parencite{PhysRevLett.95.226801}\parencite{PhysRevLett.95.146802} memperkenalkan apa yang disebut $Z2$ invariant yang merupakan klasifikasi baru untuk material topologis yang begitu kuat berkat perlindungan simetri pembalikan waktu.
 \par 
 Pada penellitian pertamanya \parencite{PhysRevLett.95.226801}, mereka menunjukkan bagaimana aplikasi dari dua model \parencite{PhysRevLett.61.2015} dan doping kopling orbit spin pada grafena menciptakan modulasi yang unik, dimana pemisahan spin ini memaksa adanya transfer spin up dan down ketepian material, namun modulasi arah yang berbanding terbalik antar dua spin membuat total \textit{chern number} menjadi nol. Kane mele juga menunjukkan adanya peralihan pita valensi menuju konduksi dan sebaliknya(yang merupakan konsekuensi \textit{Krammer's pair}) pada struktur pita ribbon sistem. Untuk memperolehnya, Kane dan Mele merumuskan model hamiltonian Tight-Binding

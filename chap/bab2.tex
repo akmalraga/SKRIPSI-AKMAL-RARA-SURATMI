@@ -264,7 +264,6 @@ sehingga dengan mengikuti prosedur \parencite{Cole_Python_Tight_Binding_2025} ko
 A_\mu(k) 
 = -\frac{1}{i\,\delta k_\mu}\,\log U_n(k).
 \]
-
 Dalam implementasi numerik yang digunakan oleh paket \parencite{Cole_Python_Tight_Binding_2025}, ekstraksi nilai $A_{\mu}(k)$ melalui prosedur diskretisasi ini disusun menjadi sebuah operator transport paralel non-Abelian yang dikenal sebagai operator Wilson Loop, $D_{\perp}(k)$. Berdasarkan formulasi \parencite{PhysRevB.84.075119}, operator ini didefinisikan sebagai produk dari \textit{link variables} di sepanjang jalur tertutup dalam zona Brillouin:
 D(k_\perp) = U(k_1) U(k_2) \dots U(k_N)
 \]
@@ -278,19 +277,24 @@ Matriks Wilson Loop ini memiliki nilai eigen berbentuk $\lambda_m = e^{i\theta_m
 Dengan demikian, prosedur Soluyanov-Vanderbilt untuk menentukan invarian $Z_2$ dilakukan dengan memplot evolusi fase $\theta_m$ terhadap momentum tegak lurusnya ($k_\perp$). Dalam fase topologis ($Z_2=1$), spektrum fase ini akan menunjukkan fenomena \textit{partner switching}, di mana jalur-jalur pusat muatan Wannier saling bertukar pasangan Kramers \ref{fig:Z2_winding}. Secara praktis, algoritma ini memastikan bahwa perhitungan tetap \textit{gauge-invariant}, sehingga sifat topologi material dapat diidentifikasi secara stabil tanpa memerlukan syarat \textit{gauge-fixing} yang rumit.
 
 \subsection{\textit{Axion Angle}}
-Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudoscalar magnetoelectric phase coupling} $\theta$ \parencite{PhysRevLett.102.146805}. Parameter $\theta$ berawal dari upaya konstruksi bentuk \textit{covariant} dari teori medan elektromagnetik \parencite{TH O'Dell}, dimana bentuk Lagrangian Maxwell dituliskan sebagai.
+Gerakan orbital elektron dalam kristal tiga dimensi menciptakan \textit{Pseudoscalar magnetoelectric phase coupling} $\theta$ \parencite{PhysRevLett.102.146805}. Parameter $\theta$ berawal dari upaya konstruksi bentuk \textit{covariant} dari teori medan elektromagnetik \parencite{O'Dell01031963}, dimana bentuk Lagrangian Maxwell dituliskan sebagai.
 \[
 \Delta \mathcal{L}=\kappa a \mathbf{E \cdot B}
 \]
-namun dalam upaya perhitungan numerik, \parencite{TH O'Dell} menunjukkan bahwa bentuk ini perlu didefinisikan ulang sebagai
+namun dalam upaya perhitungan numerik, \parencite{O'Dell01031963} menunjukkan bahwa bentuk ini perlu didefinisikan ulang sebagai
 \[
 \begin{align}
 \Delta \mathcal{L} = (\theta e^2 / 4 \pi^2)trF_{\mu \nu}\tilde{F}_{\mu \nu} \\
 = (\theta e^2 / 2 \pi^2)(\mathbf{E \cdot B} + \dots)
 \end{align}
 \]
+Di dalam medium, Lagarangian Maxwell terkoneksi langsung dengan polarisasi dan magnetisasi.
+\[
+  \mathbf{P} = \frac{\partial \mathcal{L}}{\partial \mathbf{E}} \qquad
+  \mathbf{M} = \frac{\partial \mathcal{L}}{\partial \mathbf{B}}
+\]
 \par 
-Dengan meninjau hubungan tensor polarisasi dan magnetisasi dan hubungannya dengan tensor medan elektromagnetk, polarisabilitas magnetoelectric akhirnya dapat dirumuskan sebagi\parencite{PhysRevLett.58.1799}.
+Dengan meninjau hubungan tensor polarisasi dan magnetisasi dan hubungannya dengan tensor medan elektromagnetk, polarisabilitas magnetoelectric akhirnya dapat dirumuskan dengan menurunkan polarisasi terhadap medan magnet dan atau turunan magnetisasi terhadap medan listrik\parencite{PhysRevLett.58.1799}.
 \[
 \alpha_{ij} = \frac{\partial M_{j}}{\partial E_{i}}|_{\mathbf{B}=0} = \frac{\partial P_{i}}{\partial B_{j}}|_{\mathbf{E}=0 }
 \]
@@ -322,7 +326,7 @@ Dengan itu \parencite{PhysRevB.78.195424} medefinisikan $\theta$ sebagai integra
   \theta = \frac{1}{2\pi} \int_{BZ} d^3 k \epsilon_{ijk} \text{Tr}[\mathcal{A}_i \partial_j \mathcal{A}_k - i \frac{2}{3}\mathcal{A}_i\mathcal{A}_j\mathcal{A}_k]
 \]
 
-Untuk membawa persamaan ini ke dalam perhitungan numerik, \parencite{PhysRevLett.102.146805} mempertimbangkan masalah \textit{gauge-fixing} yang dapat mempengaruhi akurasi perhitungan, seperti yang disingguns pada \ref{subsec:HWF}. Untuk itu dengan melakukan modifikasi yang meninjau polarisasi pada penelitian \parencite{Vanderbilt2018}, \parencite{PhysRevLett.102.146805} melakukan prosedur transisi dengan memvariasikan parameter magnetik $\beta$ secara perlahan, sehingga $\theta$ dapat dihitung sebagai integrasi terhadap $\beta$. $\theta(\beta)$ dihitung untuk ekspresi \textit{second chern number} menggunakan \textit{Four Curvature Formulation}
+Untuk membawa persamaan ini ke dalam perhitungan numerik, \parencite{PhysRevLett.102.146805} mempertimbangkan masalah \textit{gauge-fixing} yang dapat mempengaruhi akurasi perhitungan, seperti yang disinggung pada \ref{subsec:HWF}. Untuk itu dengan melakukan modifikasi yang meninjau polarisasi pada penelitian \parencite{Vanderbilt2018}, \parencite{PhysRevLett.102.146805} melakukan prosedur transisi dengan memvariasikan parameter dari $\mathbf{k}$ menuju $\beta$ secara perlahan, sehingga $\theta$ dapat dihitung sebagai integrasi terhadap $\beta$. $\theta(\beta)$ dihitung untuk ekspresi \textit{second chern number} menggunakan \textit{Four Curvature Formulation}
 \[
   \theta = \frac{1}{16\pi} \int_{0}^{\beta} d\beta' \int d^3k \epsilon_{ijkl} \text{Tr}[\mathcal{F}_{ij}(\mathbf{k}, \beta')\mathcal{F}_{kl}(\mathbf{k}, \beta')]
 

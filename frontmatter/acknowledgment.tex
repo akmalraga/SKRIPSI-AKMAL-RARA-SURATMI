@@ -412,6 +412,87 @@ Produk dari $F_{i, i+1}$ dapat disusun sebgai \textit{Wilson Loop}
 \begin{align}
 	D(k_y) = F_{0,1}F_{1,2}F_{2,3} \cdot \cdot \cdot F_{N_x - 2, N_x -1}F_{N_x -1,0}
 \end{align}
+\section{Axion Theory}
+\subsection{Axion dalam Elektrodinamika Medium}
+Lagrangian Maxwell di dalam material
+$$
+\mathcal{L}_{0} = - \frac{1}{16 \pi} F_{\mu \nu} F^{\mu \nu}
+$$
+komponen eksplisit $F_{\mu \nu}$
+$$
+\begin{pmatrix}
+0 & E_{x} & E_{y} & E_{z} \\
+-E_{x} & 0 & -B_{z} & B_{y} \\
+-E_{y} & B_{z} & 0 & -B_{x} \\
+-E_{z} & -B_{y} & B_{x} & 0 \\
+\end{pmatrix}
+$$
+Axion electrodinamik menambahkan tambahan suku pada Lagarngian melibatkan tensor $\tilde{F^{\mu \nu}} = \frac{1}{2}\epsilon^{\mu \nu \rho \sigma} F_{\rho \sigma}$
+$$
+\Delta \mathcal{L}= \frac{\theta e^{2}}{16 \pi^{2}\hbar c}F_{\mu \nu}\tilde{F}^{\mu \nu}
+$$
+dengan melakukan kontraksi tensor $F_{\mu \nu}\tilde{F}^{\mu \nu}$ 
+$$
+\begin{align} \\
+F_{\mu\nu}\tilde{F}^{\mu\nu} = \sum_{\mu,\nu} F_{\mu\nu}\tilde{F}^{\mu\nu} \\
+F_{\mu \nu}\tilde{F}^{\mu \nu} = \begin{pmatrix}
+0 & E_{x} & E_{y} & E_{z} \\
+-E_{x} & 0 & -B_{z} & B_{y} \\
+-E_{y} & B_{z} & 0 & -B_{x} \\
+-E_{z} & -B_{y} & B_{x} & 0 \\
+\end{pmatrix} \begin{pmatrix}
+0 & B_{x} & -B_{y} & -E_{z} \\
+-B_{x} & 0 & B_{z} & -E_{y} \\
+B_{y} & -B_{z} & 0 & -E_{x} \\
+E_{z} & E_{y} & E_{x} & 0 \\
+\end{pmatrix} \\ \\
+= F_{01}\tilde{F}^{01} + F_{02}\tilde{F}^{02} + F_{03}\tilde{F}^{03} + \dots \text{ (dan pasangan simetrisnya)} \nonumber \\
+= 2 \left[ E_x(-cB_x) + E_y(-cB_y) + E_z(-cB_z) \right] \nonumber \\
+ \quad + 2 \left[ (-cB_z)(E_z) + (cB_y)(-E_y) + (-cB_x)(E_x) \right] \nonumber \\
+= -2c(\mathbf{E} \cdot \mathbf{B}) - 2c(\mathbf{E} \cdot \mathbf{B}) \nonumber \\
+= -4c(\mathbf{E} \cdot \mathbf{B})
+\end{align}
+$$
+maka
+$$
+\begin{align}
+\Delta \mathcal{L} = \frac{\theta e^{2}}{16 \pi^{2}\hbar c}4\mathbf{E \cdot B} \\
+\Delta \mathcal{L} = \frac{\theta e^{2}}{4 \pi^{2}\hbar c}\mathbf{E \cdot B} \\
+\mathcal{L}_{tot} = \frac{1}{8 \pi}(\mathbf{E^{2} - B^{2}}) + \frac{\theta e^{2}}{4 \pi^{2}\hbar c}\mathbf{E \cdot B}
+\end{align}
+$$
+
+\subsection{Formulasi gauge-invariant 4-curvature}
+
+sudut axion $\theta$ dari koneksi Berry $\mathcal{A}$
+$$
+\theta = \frac{1}{2\pi} \int_{BZ} d^3k \, \epsilon_{ijk} \text{Tr} \left[ \mathcal{A}_i \partial_j \mathcal{A}_k - i\frac{2}{3} \mathcal{A}_i \mathcal{A}_j \mathcal{A}_k \right]
+$$
+untuk mengatasi gauge-dependent dari $\mathcal{A}$.
+$$
+\begin{align} \\
+\mathcal{A}_{n}(k) = i \bra{n_{\vec{k}}}\nabla_{\vec{k}}\ket{n_{\vec{k}}}  \\
+\mathcal{A_{n}(\vec{k})} \to e^{i\phi}n_{\vec{k}} =\mathcal{A}_{n}(\vec{k}) + \nabla_{\vec{k}}\phi(k) \\
+\end{align}
+$$
+dengan analogi yang sama dengan potensial magnet, maka dapat dikonstruksi analogi medan magnet
+$$
+\begin{align} \\
+\mathcal{F}_{n}(k) = \nabla \times \mathcal{A}_{n}(\vec{k}) \\
+\mathcal{F_{n}(\vec{k})} \to e^{i\phi}n_{\vec{k}} =\mathcal{F}_{n}(\vec{k}) \\
+\mathcal{F}_{\mu\nu} = \partial_\mu \mathcal{A}_\nu - \partial_\nu \mathcal{A}_\mu - i[\mathcal{A}_\mu, \mathcal{A}_\nu] \\
+\end{align}
+$$
+di mana indeks $\mu, \nu \in \{k_x, k_y, k_z, \beta\}$. Hubungan antara \textit{Chern Character} ke-2 dan \textit{Chern-Simons form} menyatakan bahwa turunan eksterior dari \textit{Chern-Simons 3-form} sebanding dengan $\text{Tr}(\mathcal{F} \wedge \mathcal{F})$:
+$$
+\begin{align}
+\frac{1}{8} \epsilon_{\mu\nu\rho\sigma} \text{Tr}[\mathcal{F}_{\mu\nu} \mathcal{F}_{\rho\sigma}] = \partial_\beta \left( \epsilon_{ijk} \text{Tr} \left[ \mathcal{A}_i \partial_j \mathcal{A}_k - i\frac{2}{3} \mathcal{A}_i \mathcal{A}_j \mathcal{A}_k \right] \right) + \partial_{k_i}(\dots) \\
+\frac{1}{8} \int_0^\beta d\beta' \int_{BZ} d^3k \, \epsilon_{\mu\nu\rho\sigma} \text{Tr}[\mathcal{F}_{\mu\nu} \mathcal{F}_{\rho\sigma}] = \int_{BZ} d^3k \, (\omega_{CS}(\beta) - \omega_{CS}(0)) \\
+\theta = \frac{1}{16\pi} \int_0^\beta d\beta' \int_{BZ} d^3k \, \epsilon_{\mu\nu\rho\sigma} \text{Tr}[\mathcal{F}_{\mu\nu}(\mathbf{k}, \beta') \mathcal{F}_{\rho\sigma}(\mathbf{k}, \beta')]
+\end{align}
+$$
+
+
 
 \chapter{Lampiran Kode Program}
 \label{app:kode-program}
